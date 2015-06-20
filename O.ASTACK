@@ -1,0 +1,276 @@
+
+   10 PROCheader(">a")
+
+   20 toa%=P%
+
+   30 FORo%=0TO3STEP3
+
+   40   P%=toa%
+
+   50   [:OPTo%
+
+   60   CPX#stkbot%
+
+   70   BEQunderflow
+
+   80   LDYasp%
+
+   90   CPY#astktop%
+
+  100   BEQoverflow
+
+  110   LDAstk%+1,X
+
+  120   STAsc%
+
+  130   LDAstk%+2,X
+
+  140   STAsc%+1
+
+  150   INX:INX
+
+  160   STXsc%+2
+
+  170   TYA:TAX
+
+  180   DEX:DEX
+
+  190   LDAsc%
+
+  200   STAastk%+1,X
+
+  210   LDAsc%+1
+
+  220   STAastk%+2,X
+
+  230   STXasp%
+
+  240   LDXsc%+2
+
+  250   RTS
+
+  260   .underflow
+
+  270   LDA#estku%
+
+  280   JMP(svct%)
+
+  290   .overflow
+
+  300   LDA#eastko%
+
+  310   JMP(svct%)
+
+  320   ]:NEXTo%
+
+  330 PROCheader("a>")
+
+  340 afrom%=P%
+
+  350 FORo%=0TO3STEP3
+
+  360   P%=afrom%
+
+  370   [:OPTo%
+
+  380   CPX#stktop%
+
+  390   BEQoverflow
+
+  400   LDYasp%
+
+  410   CPY#astkbot%
+
+  420   BEQunderflow
+
+  430   STXsc%+1
+
+  440   TYA:TAX
+
+  450   LDAastk%+1,X
+
+  460   STAsc%
+
+  470   LDAastk%+2,X
+
+  480   INX:INX
+
+  490   STXasp%
+
+  500   LDXsc%+1
+
+  510   DEX:DEX
+
+  520   STAstk%+2,X
+
+  530   LDAsc%
+
+  540   STAstk%+1,X
+
+  550   RTS
+
+  560   .underflow
+
+  570   LDA#eastku%
+
+  580   JMP(svct%)
+
+  590   .overflow
+
+  600   LDA#estko%
+
+  610   JMP(svct%)
+
+  620   ]:NEXTo%
+
+  630 PROCheader("a")
+
+  640 a%=P%
+
+  650 FORo%=0TO3STEP3
+
+  660   P%=a%
+
+  670   [:OPTo%
+
+  680   CPX#stktop%
+
+  690   BEQoverflow
+
+  700   LDYasp%
+
+  710   CPY#astkbot%
+
+  720   BEQunderflow
+
+  730   STXsc%+1
+
+  740   TYA:TAX
+
+  750   LDAastk%+1,X
+
+  760   STAsc%
+
+  770   LDAastk%+2,X
+
+  780   LDXsc%+1
+
+  790   DEX:DEX
+
+  800   STAstk%+2,X
+
+  810   LDAsc%
+
+  820   STAstk%+1,X
+
+  830   RTS
+
+  840   .underflow
+
+  850   LDA#eastku%
+
+  860   JMP(svct%)
+
+  870   .overflow
+
+  880   LDA#estko%
+
+  890   JMP(svct%)
+
+  900   ]:NEXTo%
+
+  910 PROCheader("adrop")
+
+  920 adrop%=P%
+
+  930 FORo%=0TO3STEP3
+
+  940   P%=adrop%
+
+  950   [:OPTo%
+
+  960   TXA:TAY
+
+  970   LDXasp%
+
+  980   CPX#astktop%
+
+  990   BEQunderflow
+
+ 1000   INX:INX
+
+ 1010   STXasp%
+
+ 1020   TYA:TAX
+
+ 1030   RTS
+
+ 1040   .underflow
+
+ 1050   LDA#eastku%
+
+ 1060   JMP(svct%)
+
+ 1070   ]:NEXTo%
+
+ 1080 OSCLI("EXEC E.ASTACK")
+
+ 1090 END
+
+ 1100 DEFPROCheader(name$)
+
+ 1110 PRINT:PRINT
+
+ 1120 PRINT"  *** ";~P%;" nfa '";name$;"'"
+
+ 1130 LETxhere%=P%
+
+ 1140 LETspan%=LEN(name$)
+
+ 1150 ?P%=span%
+
+ 1160 PROCsetbit(7,P%)
+
+ 1170 LETP%=P%+1
+
+ 1180 IFspan% > length%THENspan%=length%
+
+ 1190 FORi%=1TOspan%
+
+ 1200   ?P%=ASC(MID$(name$,i%,1))
+
+ 1210   LETP%=P%+1
+
+ 1220   NEXTi%
+
+ 1230 PRINT"  *** ";~P%;" lfa (";~last%;")"
+
+ 1240 PROCsetbit(7,P%-1)
+
+ 1250 PROCpoke(last%,P%)
+
+ 1260 LETP%=P%+2
+
+ 1270 LETlast%=xhere%
+
+ 1280 LETlabel%=label%+1
+
+ 1290 PRINT:PRINT
+
+ 1300 ENDPROC
+
+ 1310 DEFPROCsetbit(bit%,addr%)
+
+ 1320 ?addr%=?addr%OR(2^bit%)
+
+ 1330 ENDPROC
+
+ 1340 DEFPROCpoke(val%,addr%)
+
+ 1350 ?addr%=val%MOD256
+
+ 1360 ?(addr%+1)=val%DIV256
+
+ 1370 ENDPROC
+
+ 1380 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
