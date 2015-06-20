@@ -1,4 +1,4 @@
-# GSFOTH
+# GSFORTH
 Generic Subroutine Thread Forth for the BBC Micro
 =================================================
 
