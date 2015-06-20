@@ -10,7 +10,8 @@ each module has a compainion file which is executed the module as when the modul
 
 hence 
 
-CHAIN "NECLUES"
+CHAIN "NUCLEUS"
+will chain ""
 
 
 
