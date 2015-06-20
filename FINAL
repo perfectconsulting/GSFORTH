@@ -1,0 +1,784 @@
+
+   10 PROCheader("(line)")
+
+   20 bline%=P%
+
+   30 FORo%=0TO3STEP3
+
+   40   P%=bline%
+
+   50   [:OPTo%
+
+   60   JSRswap%
+
+   70   JSRcl%
+
+   80   JSRfetch%
+
+   90   JSRbbuf%
+
+  100   JSRfetch%
+
+  110   JSRmuldivmod%
+
+  120   JSRrot%
+
+  130   JSRadd%
+
+  140   JSRblock%
+
+  150   JSRadd%
+
+  160   JSRcl%
+
+  170   JSRfetch%
+
+  180   RTS
+
+  190   ]:NEXTo%
+
+  200 PROCheader(".line")
+
+  210 dotline%=P%
+
+  220 FORo%=0TO3STEP3
+
+  230   P%=dotline%
+
+  240   [:OPTo%
+
+  250   JSRbline%
+
+  260   JSRtrail%
+
+  270   JSRtype%
+
+  280   RTS
+
+  290   ]:NEXTo%
+
+  300 PROCheader("list")
+
+  310 list%=P%
+
+  320 FORo%=0TO3STEP3
+
+  330   P%=list%
+
+  340   [:OPTo%
+
+  350   JSRdec%
+
+  360   JSRcr%
+
+  370   JSRdup%
+
+  380   JSRscr%
+
+  390   JSRstore%
+
+  400   JSRdup%
+
+  410   JSRslit%
+
+  420   EQUB &05
+
+  430   EQUS "SCR #"
+
+  440   JSRcount%
+
+  450   JSRtype%
+
+  460   JSRspace%
+
+  470   JSRdot%
+
+  480   OPT FNliteral(&10)
+
+  490   OPT FNliteral(&00)
+
+  500   JSRbdo%
+
+  510   .lloop
+
+  520   JSRcr%
+
+  530   JSRa%
+
+  540   OPT FNliteral(&03)
+
+  550   JSRdotr%
+
+  560   JSRspace%
+
+  570   JSRa%
+
+  580   JSRover%
+
+  590   JSRdotline%
+
+  600   JSRbloop%
+
+  610   BCClloop
+
+  620   JSRadrop%
+
+  630   JSRadrop%
+
+  640   JSRcr%
+
+  650   JSRdrop%
+
+  660   RTS
+
+  670   ]:NEXTo%
+
+  680 PROCheader("index")
+
+  690 index%=P%
+
+  700 FORo%=0TO3STEP3
+
+  710   P%=index%
+
+  720   [:OPTo%
+
+  730   JSRoneplus%
+
+  740   JSRswap%
+
+  750   JSRbdo%
+
+  760   .iloop
+
+  770   JSRcr%
+
+  780   JSRa%
+
+  790   OPT FNliteral(&03)
+
+  800   JSRdotr%
+
+  810   JSRspace%
+
+  820   OPT FNliteral(&00)
+
+  830   JSRa%
+
+  840   JSRdotline%
+
+  850   JSRbloop%
+
+  860   BCCiloop
+
+  870   JSRadrop%
+
+  880   JSRadrop%
+
+  890   JSRcr%
+
+  900   RTS
+
+  910   ]:NEXTo%
+
+  920 PROCheader("load")
+
+  930 load%=P%
+
+  940 FORo%=0TO3STEP3
+
+  950   p%=load%
+
+  960   [:OPTo%
+
+  970   JSRblk%
+
+  980   JSRfetch%
+
+  990   JSRtoa%
+
+ 1000   JSRin%
+
+ 1010   JSRfetch%
+
+ 1020   JSRtoa%
+
+ 1030   OPT FNliteral(&00)
+
+ 1040   JSRin%
+
+ 1050   JSRstore%
+
+ 1060   OPT FNliteral(&8000)
+
+ 1070   JSRor%
+
+ 1080   JSRblk%
+
+ 1090   JSRstore%
+
+ 1100   JSRinter%
+
+ 1110   JSRafrom%
+
+ 1120   JSRin%
+
+ 1130   JSRstore%
+
+ 1140   JSRafrom%
+
+ 1150   JSRblk%
+
+ 1160   JSRstore%
+
+ 1170   RTS
+
+ 1180   ]:NEXTo%
+
+ 1190 PROCheader("-->")
+
+ 1200 minusgreat%=P%
+
+ 1210 FORo%=0TO3STEP3
+
+ 1220   P%=minusgreat%
+
+ 1230   [:OPTo%
+
+ 1240   JSRqload%
+
+ 1250   OPT FNliteral(&00)
+
+ 1260   JSRin%
+
+ 1270   JSRstore%
+
+ 1280   OPT FNliteral(&01)
+
+ 1290   JSRblk%
+
+ 1300   JSRplusstore%
+
+ 1310   RTS
+
+ 1320   ]:NEXTo%
+
+ 1330 PROCsetbit(6,last%)
+
+ 1340 PROCheader("openin")
+
+ 1350 openin%=P%
+
+ 1360 FORo%=0TO3STEP3
+
+ 1370   P%=openin%
+
+ 1380   [:OPTo%
+
+ 1390   OPT FNliteral(&40)
+
+ 1400   JSRbopen%
+
+ 1410   RTS
+
+ 1420   ]:NEXTo%
+
+ 1430 PROCheader("openout")
+
+ 1440 openout%=P%
+
+ 1450 FORo%=0TO3STEP3
+
+ 1460   P%=openout%
+
+ 1470   [:OPTo%
+
+ 1480   OPT FNliteral(&80)
+
+ 1490   JSRbopen%
+
+ 1500   RTS
+
+ 1510   ]:NEXTo%
+
+ 1520 PROCheader("openup")
+
+ 1530 openup%=P%
+
+ 1540 FORo%=0TO3STEP3
+
+ 1550   P%=openup%
+
+ 1560   [:OPTo%
+
+ 1570   OPT FNliteral(&C0)
+
+ 1580   JSRbopen%
+
+ 1590   RTS
+
+ 1600   ]:NEXTo%
+
+ 1610 PROCheader("using")
+
+ 1620 using%=P%
+
+ 1630 FORo%=0TO3STEP3
+
+ 1640   P%=using%
+
+ 1650   [:OPTo%
+
+ 1660   JSRhere%
+
+ 1670   JSRbl%
+
+ 1680   JSRword%
+
+ 1690   JSRopenup%
+
+ 1700   JSRdup%
+
+ 1710   JSRzeroequal%
+
+ 1720   OPT FNliteral(efound%)
+
+ 1730   JSRqerror%
+
+ 1740   JSRchannel%
+
+ 1750   JSRdup%
+
+ 1760   JSRfetch%
+
+ 1770   JSRbranch%
+
+ 1780   BEQnochannel
+
+ 1790   JSRdup%
+
+ 1800   JSRfetch%
+
+ 1810   JSRclose%
+
+ 1820   JSRempty%
+
+ 1830   .nochannel
+
+ 1840   JSRstore%
+
+ 1850   RTS
+
+ 1860   ]:NEXTo%
+
+ 1870 PROCheader("discard")
+
+ 1880 discard%=P%
+
+ 1890 FORo%=0TO3STEP3
+
+ 1900   P%=discard%
+
+ 1910   [:OPTo%
+
+ 1920   JSRflush%
+
+ 1930   JSRchannel%
+
+ 1940   JSRfetch%
+
+ 1950   JSRclose%
+
+ 1960   OPT FNliteral(&00)
+
+ 1970   JSRchannel%
+
+ 1980   JSRstore%
+
+ 1990   JSRempty%
+
+ 2000   RTS
+
+ 2010   ]:NEXTo%
+
+ 2020 PROCheader("abort")
+
+ 2030 abort%=P%
+
+ 2040 FORo%=0TO3STEP3
+
+ 2050   P%=abort%
+
+ 2060   [:OPTo%
+
+ 2070   JSRspstore%
+
+ 2080   JSRapstore%
+
+ 2090   JSRdec%
+
+ 2100   JSRslit%
+
+ 2110   EQUB &22
+
+ 2120   EQUS "Generic Subroutine-Threaded FORTH."
+
+ 2130   JSRcount%
+
+ 2140   JSRtype%
+
+ 2150   JSRcr%
+
+ 2160   JSRslit%
+
+ 2170   EQUB &1D
+
+ 2180   EQUS "BBC Model 'B' Implementation."
+
+ 2190   JSRcount%
+
+ 2200   JSRtype%
+
+ 2210   JSRcr%
+
+ 2220   JSRslit%
+
+ 2230   EQUB &0C
+
+ 2240   EQUS "Version 2.00"
+
+ 2250   JSRcount%
+
+ 2260   JSRtype%
+
+ 2270   JSRcr%
+
+ 2280   JSRempty%
+
+ 2290   JMPquit%
+
+ 2300   ]:NEXTo%
+
+ 2310 syserr%=P%
+
+ 2320 FORo%=0TO3STEP3
+
+ 2330   P%=syserr%
+
+ 2340   [:OPTo%
+
+ 2350   LDX#stkbot%
+
+ 2360   DEX:DEX
+
+ 2370   STAstk%+1,X
+
+ 2380   LDA#&00
+
+ 2390   STAstk%+2,X
+
+ 2400   LDA#astkbot%
+
+ 2410   STAasp%
+
+ 2420   JSRmess%
+
+ 2430   JSRquit%
+
+ 2440   ]:NEXTo%
+
+ 2450 brkerr%=P%
+
+ 2460 FORo%=0TO3STEP3
+
+ 2470   P%=brkerr%
+
+ 2480   [:OPTo%
+
+ 2490   LDX#stkbot%
+
+ 2500   LDA#astkbot%
+
+ 2510   STAasp%
+
+ 2520   DEX:DEX
+
+ 2530   LDA#&00
+
+ 2540   STAstk%+1,X
+
+ 2550   STAstk%+2,X
+
+ 2560   JSRsmess%
+
+ 2570   JSRcount%
+
+ 2580   JSRtype%
+
+ 2590   JSRspace%
+
+ 2600   DEX:DEX
+
+ 2610   LDY#&00
+
+ 2620   LDA(&FD),Y
+
+ 2630   STAstk%+1,X
+
+ 2640   TYA
+
+ 2650   STAstk%+2,X
+
+ 2660   JSRdot%
+
+ 2670   INC&FD
+
+ 2680   BNEbrktxt
+
+ 2690   INC&FE
+
+ 2700   .brktxt
+
+ 2710   LDA#&22
+
+ 2720   JSR&FFEE
+
+ 2730   LDY#&00
+
+ 2740   .brkloop
+
+ 2750   LDA(&FD),Y
+
+ 2760   BEQbrkexit
+
+ 2770   JSR&FFEE
+
+ 2780   INY
+
+ 2790   BNEbrkloop
+
+ 2800   .brkexit
+
+ 2810   LDA#&22
+
+ 2820   JSR&FFEE
+
+ 2830   JSRquit%
+
+ 2840   ]:NEXTo%
+
+ 2850 PROCheader("warm")
+
+ 2860 warm%=P%
+
+ 2870 FORo%=0TO3STEP3
+
+ 2880   P%=warm%
+
+ 2890   [:OPTo%
+
+ 2900   LDY#uvcurrent%
+
+ 2910   LDAorigin%+uvccurrent%
+
+ 2920   STA(up%),Y
+
+ 2930   INY
+
+ 2940   LDAorigin%+uvccurrent%+1
+
+ 2950   STA(up%),Y
+
+ 2960   LDY#uvcontext%
+
+ 2970   LDAorigin%+uvccontext%
+
+ 2980   STA(up%),Y
+
+ 2990   INY
+
+ 3000   LDAorigin%+uvccontext%+1
+
+ 3010   STA(up%),Y
+
+ 3020   JMPabort%
+
+ 3030   ]:NEXTo%
+
+ 3040 PROCheader("cold")
+
+ 3050 cold%=P%
+
+ 3060 FORo%=0TO3STEP3
+
+ 3070   P%=cold%
+
+ 3080   [:OPTo%
+
+ 3090   LDA#origin% MOD 256
+
+ 3100   STAup%
+
+ 3110   LDA#origin% DIV 256
+
+ 3120   STAup%+1
+
+ 3130   LDAorigin%+uvcdp%
+
+ 3140   STAorigin%+uvdp%
+
+ 3150   LDAorigin%+uvcdp%+1
+
+ 3160   STAorigin%+uvdp%+1
+
+ 3170   LDAorigin%+uvccurrent%
+
+ 3180   STAorigin%+uvcurrent%
+
+ 3190   STAsc%
+
+ 3200   LDAorigin%+uvccurrent%+1
+
+ 3210   STAorigin%+uvcurrent%+1
+
+ 3220   STAsc%+1
+
+ 3230   LDAorigin%+uvccontext%
+
+ 3240   STAorigin%+uvcontext%
+
+ 3250   LDAorigin%+uvccontext%+1
+
+ 3260   STAorigin%+uvcontext%+1
+
+ 3270   LDAorigin%+uvcvoclink%
+
+ 3280   STAorigin%+uvvoclink%
+
+ 3290   LDAorigin%+uvcvoclink%+1
+
+ 3300   STAorigin%+uvvoclink%+1
+
+ 3310   LDY#&00
+
+ 3320   LDAorigin%+uvclast%
+
+ 3330   STA(sc%),Y
+
+ 3340   INY
+
+ 3350   LDAorigin%+uvclast%+1
+
+ 3360   STA(sc%),Y
+
+ 3370   LDA#syserr% MOD 256
+
+ 3380   STAsvct%
+
+ 3390   LDA#syserr% DIV 256
+
+ 3400   STAsvct%+1
+
+ 3410   LDA#brkerr% MOD 256
+
+ 3420   STA&202
+
+ 3430   LDA#brkerr% DIV 256
+
+ 3440   STA&203
+
+ 3450   JMPabort%
+
+ 3460   ]:NEXTo%
+
+ 3470 PROCpoke(qerror%,(epatch+1))
+
+ 3480 PROCpoke(qerror%,(apatch+1))
+
+ 3490 PROCpoke(block%,(bpatch+1))
+
+ 3500 PROCpoke(P%,origin%+uvcdp%)
+
+ 3510 PROCpoke(fbody,origin%+uvccurrent%)
+
+ 3520 PROCpoke(fbody,origin%+uvccontext%)
+
+ 3530 PROCpoke(vbody,origin%+uvcvoclink%)
+
+ 3540 PROCpoke(last%,origin%+uvclast%)
+
+ 3550 PRINT:PRINT
+
+ 3560 PRINT"  ***"
+
+ 3570 PRINT"  *** Dictionary map complete."
+
+ 3580 PRINT"  ***"
+
+ 3590 PRINT"  *** Base address    : "; ~origin% ; "."
+
+ 3600 PRINT"  *** Size of map     : "; ~( P%-origin%);" bytes."
+
+ 3610 PRINT"  *** Labels defined  : "; label% ;"."
+
+ 3620 PRINT"  ***"
+
+ 3630 END
+
+ 3640 DEFPROCheader(name$)
+
+ 3650 PRINT:PRINT
+
+ 3660 PRINT"  *** ";~P%;" nfa '";name$;"'"
+
+ 3670 LETxhere%=P%
+
+ 3680 LETspan%=LEN(name$)
+
+ 3690 ?P%=span%
+
+ 3700 PROCsetbit(7,P%)
+
+ 3710 LETP%=P%+1
+
+ 3720 IFspan% > length%THENspan%=length%
+
+ 3730 FORi%=1TOspan%
+
+ 3740   ?P%=ASC(MID$(name$,i%,1))
+
+ 3750   LETP%=P%+1
+
+ 3760   NEXTi%
+
+ 3770 PRINT"  *** ";~P%;" lfa (";~last%;")"
+
+ 3780 PROCsetbit(7,P%-1)
+
+ 3790 PROCpoke(last%,P%)
+
+ 3800 LETP%=P%+2
+
+ 3810 LETlast%=xhere%
+
+ 3820 LETlabel%=label%+1
+
+ 3830 PRINT:PRINT
+
+ 3840 ENDPROC
+
+ 3850 DEFPROCsetbit(bit%,addr%)
+
+ 3860 ?addr%=?addr%OR(2^bit%)
+
+ 3870 ENDPROC
+
+ 3880 DEFPROCpoke(val%,addr%)
+
+ 3890 ?addr%=val%MOD256
+
+ 3900 ?(addr%+1)=val%DIV256
+
+ 3910 ENDPROC
+
+ 3920 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
