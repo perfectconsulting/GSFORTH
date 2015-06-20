@@ -11,7 +11,9 @@ each module has a compainion file which is executed the module as when the modul
 hence 
 
 CHAIN "NUCLEUS"
-will chain ""
+will EXEC "E.NUCLEUS"
+with will load the overlay 
+
 
 
 
