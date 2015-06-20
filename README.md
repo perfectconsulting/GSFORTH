@@ -10,11 +10,14 @@ each module has a compainion file which is executed the module as when the modul
 
 hence 
 
-CHAIN "NUCLEUS"
+CHAIN 
 will EXEC "E.NUCLEUS"
-with will load the overlay 
+with will load the overlay "MORE" and so on
 
+the load sequnece is:
+"NUCLEUS"
 
+"NUCLEUS"
 
 
 
