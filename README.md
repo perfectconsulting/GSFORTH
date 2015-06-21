@@ -37,5 +37,7 @@ type
 chain "NECLUES"
 
 
-
+NOTE
+====
+The code in compressed, i.e all unnecessary spaces have been removed. I did this all by hand..
 
