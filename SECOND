@@ -1,524 +1,262 @@
-
-   10 PROCheader("dliteral")
-
-   20 dliteral%=P%
-
-   30 FORo%=0TO3STEP3
-
-   40   P%=dliteral%
-
-   50   [:OPTo%
-
-   60   JSRstate%
-
-   70   JSRfetch%
-
-   80   JSRbranch%
-
-   90   BEQenddlit
-
-  100   JSRswap%
-
-  110   JSRliteral%
-
-  120   JSRliteral%
-
-  130   .enddlit
-
-  140   RTS
-
-  150   ]:NEXTo%
-
-  160 PROCsetbit(6,last%)
-
-  170 PROCheader("$message")
-
-  180 smess%=P%
-
-  190 FORo%=0TO3STEP3
-
-  200   P%=smess%
-
-  210   [:OPTo%
-
-  220   JSRdup%
-
-  230   OPT FNliteral(&00)
-
-  240   JSRequal%
-
-  250   JSRbranch%
-
-  260   BEQm1
-
-  270   JSRdrop%
-
-  280   JSRslit%
-
-  290   EQUB &09
-
-  300   EQUS "OS error."
-
-  310   RTS
-
-  320   .m1
-
-  330   JSRdup%
-
-  340   OPT FNliteral(estko%)
-
-  350   JSRequal%
-
-  360   JSRbranch%
-
-  370   BEQm2
-
-  380   JSRdrop%
-
-  390   JSRslit%
-
-  400   EQUB &19
-
-  410   EQUS "Parameter stack overflow."
-
-  420   RTS
-
-  430   .m2
-
-  440   JSRdup%
-
-  450   OPT FNliteral(estku%)
-
-  460   JSRequal%
-
-  470   JSRbranch%
-
-  480   BEQm3
-
-  490   JSRdrop%
-
-  500   JSRslit%
-
-  510   EQUB &1A
-
-  520   EQUS "Parameter stack underflow."
-
-  530   RTS
-
-  540   .m3
-
-  550   JSRdup%
-
-  560   OPT FNliteral(eastko%)
-
-  570   JSRequal%
-
-  580   JSRbranch%
-
-  590   BEQm4
-
-  600   JSRdrop%
-
-  610   JSRslit%
-
-  620   EQUB &19
-
-  630   EQUS "Auxiliary stack overflow."
-
-  640   RTS
-
-  650   .m4
-
-  660   JSRdup%
-
-  670   OPT FNliteral(eastku%)
-
-  680   JSRequal%
-
-  690   JSRbranch%
-
-  700   BEQm5
-
-  710   JSRdrop%
-
-  720   JSRslit%
-
-  730   EQUB &1A
-
-  740   EQUS "Auxiliary stack underflow."
-
-  750   RTS
-
-  760   .m5
-
-  770   JSRdup%
-
-  780   OPT FNliteral(emislex%)
-
-  790   JSRequal%
-
-  800   JSRbranch%
-
-  810   BEQm6
-
-  820   JSRdrop%
-
-  830   JSRslit%
-
-  840   EQUB &13
-
-  850   EQUS "Mis-matched lexeme."
-
-  860   RTS
-
-  870   .m6
-
-  880   JSRdup%
-
-  890   OPT FNliteral(edzero%)
-
-  900   JSRequal%
-
-  910   JSRbranch%
-
-  920   BEQm7
-
-  930   JSRdrop%
-
-  940   JSRslit%
-
-  950   EQUB &14
-
-  960   EQUS "Can't divid by zero."
-
-  970   RTS
-
-  980   .m7
-
-  990   JSRdup%
-
- 1000   OPT FNliteral(eunique%)
-
- 1010   JSRequal%
-
- 1020   JSRbranch%
-
- 1030   BEQm8
-
- 1040   JSRdrop%
-
- 1050   JSRslit%
-
- 1060   EQUB &0D
-
- 1070   EQUS "isn't unique."
-
- 1080   RTS
-
- 1090   .m8
-
- 1100   JSRdup%
-
- 1110   OPT FNliteral(enomem%)
-
- 1120   JSRequal%
-
- 1130   JSRbranch%
-
- 1140   BEQm9
-
- 1150   JSRdrop%
-
- 1160   JSRslit%
-
- 1170   EQUB &10
-
- 1180   EQUS "Dictionary full."
-
- 1190   RTS
-
- 1200   .m9
-
- 1210   JSRdup%
-
- 1220   OPT FNliteral(efinish%)
-
- 1230   JSRequal%
-
- 1240   JSRbranch%
-
- 1250   BEQm10
-
- 1260   JSRdrop%
-
- 1270   JSRslit%
-
- 1280   EQUB &18
-
- 1290   EQUS "Definition not finished."
-
- 1300   RTS
-
- 1310   .m10
-
- 1320   JSRdup%
-
- 1330   OPT FNliteral(eexec%)
-
- 1340   JSRequal%
-
- 1350   JSRbranch%
-
- 1360   BEQm11
-
- 1370   JSRdrop%
-
- 1380   JSRslit%
-
- 1390   EQUB &0F
-
- 1400   EQUS "Execution only."
-
- 1410   RTS
-
- 1420   .m11
-
- 1430   JSRdup%
-
- 1440   OPT FNliteral(ecomp%)
-
- 1450   JSRequal%
-
- 1460   JSRbranch%
-
- 1470   BEQm12
-
- 1480   JSRdrop%
-
- 1490   JSRslit%
-
- 1500   EQUB &11
-
- 1510   EQUS "Compilation only."
-
- 1520   RTS
-
- 1530   .m12
-
- 1540   JSRdup%
-
- 1550   OPT FNliteral(eload%)
-
- 1560   JSRequal%
-
- 1570   JSRbranch%
-
- 1580   BEQm13
-
- 1590   JSRdrop%
-
- 1600   JSRslit%
-
- 1610   EQUB &16
-
- 1620   EQUS "Use only when loading."
-
- 1630   RTS
-
- 1640   .m13
-
- 1650   JSRdup%
-
- 1660   OPT FNliteral(epair%)
-
- 1670   JSRequal%
-
- 1680   JSRbranch%
-
- 1690   BEQm14
-
- 1700   JSRdrop%
-
- 1710   JSRslit%
-
- 1720   EQUB &18
-
- 1730   EQUS "Conditionals not paired."
-
- 1740   RTS
-
- 1750   .m14
-
- 1760   JSRdup%
-
- 1770   OPT FNliteral(enul%)
-
- 1780   JSRequal%
-
- 1790   JSRbranch%
-
- 1800   BEQm15
-
- 1810   JSRdrop%
-
- 1820   JSRslit%
-
- 1830   EQUB &1B
-
- 1840   EQUS "Can't redefine end-of-line."
-
- 1850   RTS
-
- 1860   .m15
-
- 1870   JSRdup%
-
- 1880   OPT FNliteral(efence%)
-
- 1890   JSRequal%
-
- 1900   JSRbranch%
-
- 1910   BEQm16
-
- 1920   JSRdrop%
-
- 1930   JSRslit%
-
- 1940   EQUB &18
-
- 1950   EQUS "In protected vocabulary."
-
- 1960   RTS
-
- 1970   .m16
-
- 1980   JSRdup%
-
- 1990   OPT FNliteral(efound%)
-
- 2000   JSRequal%
-
- 2010   JSRbranch%
-
- 2020   BEQm17
-
- 2030   JSRdrop%
-
- 2040   JSRslit%
-
- 2050   EQUB &0F
-
- 2060   EQUS "File not found."
-
- 2070   RTS
-
- 2080   .m17
-
- 2090   JSRdrop%
-
- 2100   JSRslit%
-
- 2110   EQUB &17
-
- 2120   EQUS "Unknown message number."
-
- 2130   RTS
-
- 2140   ]:NEXTo%
-
- 2150 PROCheader("message")
-
- 2160 mess%=P%
-
- 2170 FORo%=0TO3STEP3
-
- 2180   P%=mess%
-
- 2190   [:OPTo%
-
- 2200   JSRwarning%
-
- 2210   JSRfetch%
-
- 2220   JSRbranch%
-
- 2230   BNEdismess
-
- 2240   JSRdrop%
-
- 2250   RTS
-
- 2260   .dismess
-
- 2270   JSRsmess%
-
- 2280   JSRcount%
-
- 2290   JSRtype%
-
- 2300   RTS
-
- 2310   ]:NEXTo%
-
- 2320 OSCLI("EXEC E.SECOND")
-
- 2330 END
-
- 2340 DEFPROCheader(name$)
-
- 2350 PRINT:PRINT
-
- 2360 PRINT"  *** ";~P%;" nfa '";name$;"'"
-
- 2370 LETxhere%=P%
-
- 2380 LETspan%=LEN(name$)
-
- 2390 ?P%=span%
-
- 2400 PROCsetbit(7,P%)
-
- 2410 LETP%=P%+1
-
- 2420 IFspan% > length%THENspan%=length%
-
- 2430 FORi%=1TOspan%
-
- 2440   ?P%=ASC(MID$(name$,i%,1))
-
- 2450   LETP%=P%+1
-
- 2460   NEXTi%
-
- 2470 PRINT"  *** ";~P%;" lfa (";~last%;")"
-
- 2480 PROCsetbit(7,P%-1)
-
- 2490 PROCpoke(last%,P%)
-
- 2500 LETP%=P%+2
-
- 2510 LETlast%=xhere%
-
- 2520 LETlabel%=label%+1
-
- 2530 PRINT:PRINT
-
- 2540 ENDPROC
-
- 2550 DEFPROCsetbit(bit%,addr%)
-
- 2560 ?addr%=?addr%OR(2^bit%)
-
- 2570 ENDPROC
-
- 2580 DEFPROCpoke(val%,addr%)
-
- 2590 ?addr%=val%MOD256
-
- 2600 ?(addr%+1)=val%DIV256
-
- 2610 ENDPROC
-
- 2620 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
+   10PROCheader("dliteral")
+   20dliteral%=P%
+   30FORo%=0TO3STEP3
+   40P%=dliteral%
+   50[:OPTo%
+   60JSRstate%
+   70JSRfetch%
+   80JSRbranch%
+   90BEQenddlit
+  100JSRswap%
+  110JSRliteral%
+  120JSRliteral%
+  130.enddlit
+  140RTS
+  150]:NEXTo%
+  160PROCsetbit(6,last%)
+  170PROCheader("$message")
+  180smess%=P%
+  190FORo%=0TO3STEP3
+  200P%=smess%
+  210[:OPTo%
+  220JSRdup%
+  230OPT FNliteral(&00)
+  240JSRequal%
+  250JSRbranch%
+  260BEQm1
+  270JSRdrop%
+  280JSRslit%
+  290EQUB &09
+  300EQUS "OS error."
+  310RTS
+  320.m1
+  330JSRdup%
+  340OPT FNliteral(estko%)
+  350JSRequal%
+  360JSRbranch%
+  370BEQm2
+  380JSRdrop%
+  390JSRslit%
+  400EQUB &19
+  410EQUS "Parameter stack overflow."
+  420RTS
+  430.m2
+  440JSRdup%
+  450OPT FNliteral(estku%)
+  460JSRequal%
+  470JSRbranch%
+  480BEQm3
+  490JSRdrop%
+  500JSRslit%
+  510EQUB &1A
+  520EQUS "Parameter stack underflow."
+  530RTS
+  540.m3
+  550JSRdup%
+  560OPT FNliteral(eastko%)
+  570JSRequal%
+  580JSRbranch%
+  590BEQm4
+  600JSRdrop%
+  610JSRslit%
+  620EQUB &19
+  630EQUS "Auxiliary stack overflow."
+  640RTS
+  650.m4
+  660JSRdup%
+  670OPT FNliteral(eastku%)
+  680JSRequal%
+  690JSRbranch%
+  700BEQm5
+  710JSRdrop%
+  720JSRslit%
+  730EQUB &1A
+  740EQUS "Auxiliary stack underflow."
+  750RTS
+  760.m5
+  770JSRdup%
+  780OPT FNliteral(emislex%)
+  790JSRequal%
+  800JSRbranch%
+  810BEQm6
+  820JSRdrop%
+  830JSRslit%
+  840EQUB &13
+  850EQUS "Mis-matched lexeme."
+  860RTS
+  870.m6
+  880JSRdup%
+  890OPT FNliteral(edzero%)
+  900JSRequal%
+  910JSRbranch%
+  920BEQm7
+  930JSRdrop%
+  940JSRslit%
+  950EQUB &14
+  960EQUS "Can't divid by zero."
+  970RTS
+  980.m7
+  990JSRdup%
+ 1000OPT FNliteral(eunique%)
+ 1010JSRequal%
+ 1020JSRbranch%
+ 1030BEQm8
+ 1040JSRdrop%
+ 1050JSRslit%
+ 1060EQUB &0D
+ 1070EQUS "isn't unique."
+ 1080RTS
+ 1090.m8
+ 1100JSRdup%
+ 1110OPT FNliteral(enomem%)
+ 1120JSRequal%
+ 1130JSRbranch%
+ 1140BEQm9
+ 1150JSRdrop%
+ 1160JSRslit%
+ 1170EQUB &10
+ 1180EQUS "Dictionary full."
+ 1190RTS
+ 1200.m9
+ 1210JSRdup%
+ 1220OPT FNliteral(efinish%)
+ 1230JSRequal%
+ 1240JSRbranch%
+ 1250BEQm10
+ 1260JSRdrop%
+ 1270JSRslit%
+ 1280EQUB &18
+ 1290EQUS "Definition not finished."
+ 1300RTS
+ 1310.m10
+ 1320JSRdup%
+ 1330OPT FNliteral(eexec%)
+ 1340JSRequal%
+ 1350JSRbranch%
+ 1360BEQm11
+ 1370JSRdrop%
+ 1380JSRslit%
+ 1390EQUB &0F
+ 1400EQUS "Execution only."
+ 1410RTS
+ 1420.m11
+ 1430JSRdup%
+ 1440OPT FNliteral(ecomp%)
+ 1450JSRequal%
+ 1460JSRbranch%
+ 1470BEQm12
+ 1480JSRdrop%
+ 1490JSRslit%
+ 1500EQUB &11
+ 1510EQUS "Compilation only."
+ 1520RTS
+ 1530.m12
+ 1540JSRdup%
+ 1550OPT FNliteral(eload%)
+ 1560JSRequal%
+ 1570JSRbranch%
+ 1580BEQm13
+ 1590JSRdrop%
+ 1600JSRslit%
+ 1610EQUB &16
+ 1620EQUS "Use only when loading."
+ 1630RTS
+ 1640.m13
+ 1650JSRdup%
+ 1660OPT FNliteral(epair%)
+ 1670JSRequal%
+ 1680JSRbranch%
+ 1690BEQm14
+ 1700JSRdrop%
+ 1710JSRslit%
+ 1720EQUB &18
+ 1730EQUS "Conditionals not paired."
+ 1740RTS
+ 1750.m14
+ 1760JSRdup%
+ 1770OPT FNliteral(enul%)
+ 1780JSRequal%
+ 1790JSRbranch%
+ 1800BEQm15
+ 1810JSRdrop%
+ 1820JSRslit%
+ 1830EQUB &1B
+ 1840EQUS "Can't redefine end-of-line."
+ 1850RTS
+ 1860.m15
+ 1870JSRdup%
+ 1880OPT FNliteral(efence%)
+ 1890JSRequal%
+ 1900JSRbranch%
+ 1910BEQm16
+ 1920JSRdrop%
+ 1930JSRslit%
+ 1940EQUB &18
+ 1950EQUS "In protected vocabulary."
+ 1960RTS
+ 1970.m16
+ 1980JSRdup%
+ 1990OPT FNliteral(efound%)
+ 2000JSRequal%
+ 2010JSRbranch%
+ 2020BEQm17
+ 2030JSRdrop%
+ 2040JSRslit%
+ 2050EQUB &0F
+ 2060EQUS "File not found."
+ 2070RTS
+ 2080.m17
+ 2090JSRdrop%
+ 2100JSRslit%
+ 2110EQUB &17
+ 2120EQUS "Unknown message number."
+ 2130RTS
+ 2140]:NEXTo%
+ 2150PROCheader("message")
+ 2160mess%=P%
+ 2170FORo%=0TO3STEP3
+ 2180P%=mess%
+ 2190[:OPTo%
+ 2200JSRwarning%
+ 2210JSRfetch%
+ 2220JSRbranch%
+ 2230BNEdismess
+ 2240JSRdrop%
+ 2250RTS
+ 2260.dismess
+ 2270JSRsmess%
+ 2280JSRcount%
+ 2290JSRtype%
+ 2300RTS
+ 2310]:NEXTo%
+ 2320OSCLI("EXEC E.SECOND")
+ 2330END
+ 2340DEFPROCheader(name$)
+ 2350PRINT:PRINT
+ 2360PRINT"  *** ";~P%;" nfa '";name$;"'"
+ 2370LETxhere%=P%
+ 2380LETspan%=LEN(name$)
+ 2390?P%=span%
+ 2400PROCsetbit(7,P%)
+ 2410LETP%=P%+1
+ 2420IFspan% > length%THENspan%=length%
+ 2430FORi%=1TOspan%
+ 2440?P%=ASC(MID$(name$,i%,1))
+ 2450LETP%=P%+1
+ 2460NEXTi%
+ 2470PRINT"  *** ";~P%;" lfa (";~last%;")"
+ 2480PROCsetbit(7,P%-1)
+ 2490PROCpoke(last%,P%)
+ 2500LETP%=P%+2
+ 2510LETlast%=xhere%
+ 2520LETlabel%=label%+1
+ 2530PRINT:PRINT
+ 2540ENDPROC
+ 2550DEFPROCsetbit(bit%,addr%)
+ 2560?addr%=?addr%OR(2^bit%)
+ 2570ENDPROC
+ 2580DEFPROCpoke(val%,addr%)
+ 2590?addr%=val%MOD256
+ 2600?(addr%+1)=val%DIV256
+ 2610ENDPROC
+ 2620DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
