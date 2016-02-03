@@ -1,842 +1,421 @@
-
-   10 PROCheader("+")
-
-   20 add%=P%
-
-   30 FORo%=0TO3STEP3
-
-   40   P%=add%
-
-   50   [:OPTo%
-
-   60   CPX#stkbot%-2
-
-   70   BCSunderflow
-
-   80   CLC
-
-   90   INX:INX
-
-  100   LDAstk%-1,X
-
-  110   ADCstk%+1,X
-
-  120   STAstk%+1,X
-
-  130   LDAstk%,X
-
-  140   ADCstk%+2,X
-
-  150   STAstk%+2,X
-
-  160   RTS
-
-  170   .underflow
-
-  180   LDA#estku%
-
-  190   JMP(svct%)
-
-  200   ]:NEXTo%
-
-  210 PROCheader("d+")
-
-  220 dadd%=P%
-
-  230 FORo%=0TO3STEP3
-
-  240   P%=dadd%
-
-  250   [:OPTo%
-
-  260   CPX#stkbot%-6
-
-  270   BCSunderflow
-
-  280   CLC
-
-  290   LDAstk%+3,X
-
-  300   ADCstk%+7,X
-
-  310   STAstk%+7,X
-
-  320   LDAstk%+4,X
-
-  330   ADCstk%+8,X
-
-  340   STAstk%+8,X
-
-  350   LDAstk%+1,X
-
-  360   ADCstk%+5,X
-
-  370   STAstk%+5,X
-
-  380   LDAstk%+2,X
-
-  390   ADCstk%+6,X
-
-  400   STAstk%+6,X
-
-  410   INX:INX:INX:INX
-
-  420   RTS
-
-  430   .underflow
-
-  440   LDA#estku%
-
-  450   JMP(svct%)
-
-  460   ]:NEXTo%
-
-  470 PROCheader("u*")
-
-  480 umul%=P%
-
-  490 FORo%=0TO3STEP3
-
-  500   P%=umul%
-
-  510   [:OPTo%
-
-  520   CPX#stkbot%-2
-
-  530   BCSunderflow
-
-  540   LDAstk%+3,X:STAsc%
-
-  550   LDAstk%+4,X:STAsc%+1
-
-  560   LDA#&00
-
-  570   STAstk%+3,X:STAstk%+4,X
-
-  580   LDY#&10
-
-  590   .rotate
-
-  600   ASLstk%+3,X
-
-  610   ROLstk%+4,X
-
-  620   ROLstk%+1,X
-
-  630   ROLstk%+2,X
-
-  640   BCCmodify
-
-  650   CLC
-
-  660   LDAsc%
-
-  670   ADCstk%+3,X
-
-  680   STAstk%+3,X
-
-  690   LDAsc%+1
-
-  700   ADCstk%+4,X
-
-  710   STAstk%+4,X
-
-  720   BCCmodify
-
-  730   INCstk%+1,X
-
-  740   BNEmodify
-
-  750   INCstk%+2,X
-
-  760   .modify
-
-  770   DEY
-
-  780   BNErotate
-
-  790   RTS
-
-  800   .underflow
-
-  810   LDA#estku%
-
-  820   JMP(svct%)
-
-  830   ]:NEXTo%
-
-  840 PROCheader("u/")
-
-  850 udiv%=P%
-
-  860 FORo%=0TO3STEP3
-
-  870   P%=udiv%
-
-  880   [:OPTo%
-
-  890   CPX#stkbot%-4
-
-  900   BCSunderflow
-
-  910   LDAstk%+1,X
-
-  920   BNEnonzero
-
-  930   LDAstk%+2,X
-
-  940   BEQdivzero
-
-  950   .nonzero
-
-  960   LDAstk%+5,X
-
-  970   LDYstk%+3,X
-
-  980   STYstk%+5,X
-
-  990   ASLA
-
- 1000   STAstk%+3,X
-
- 1010   LDAstk%+6,X
-
- 1020   LDYstk%+4,X
-
- 1030   STYstk%+6,X
-
- 1040   ROLA
-
- 1050   STAstk%+4,X
-
- 1060   LDA#&10
-
- 1070   STAsc%
-
- 1080   .rotate
-
- 1090   ROLstk%+5,X 
-
- 1100   ROLstk%+6,X
-
- 1110   SEC
-
- 1120   LDAstk%+5,X
-
- 1130   SBCstk%+1,X
-
- 1140   TAY
-
- 1150   LDAstk%+6,X
-
- 1160   SBCstk%+2,X
-
- 1170   BCCmodify
-
- 1180   STYstk%+5,X
-
- 1190   STAstk%+6,X
-
- 1200   .modify
-
- 1210   ROLstk%+3,X
-
- 1220   ROLstk%+4,X
-
- 1230   DECsc%
-
- 1240   BNErotate
-
- 1250   INX:INX
-
- 1260   RTS
-
- 1270   .underflow
-
- 1280   LDA#estku%
-
- 1290   JMP(svct%)
-
- 1300   .divzero
-
- 1310   LDA#edzero%
-
- 1320   JMP(svct%)
-
- 1330   ]:NEXTo%
-
- 1340 PROCheader("minus")
-
- 1350 minus%=P%
-
- 1360 FORo%=0TO3STEP3
-
- 1370   P%=minus%
-
- 1380   [:OPTo%
-
- 1390   CPX#stkbot%
-
- 1400   BEQunderflow
-
- 1410   CLC
-
- 1420   LDAstk%+1,X
-
- 1430   EOR#&FF
-
- 1440   ADC#&01
-
- 1450   STAstk%+1,X
-
- 1460   LDAstk%+2,X
-
- 1470   EOR#&FF
-
- 1480   ADC#&00
-
- 1490   STAstk%+2,X
-
- 1500   RTS
-
- 1510   .underflow
-
- 1520   LDA#estku%
-
- 1530   JMP(svct%)
-
- 1540   ]:NEXTo%
-
- 1550 PROCheader("dminus")
-
- 1560 dminus%=P%
-
- 1570 FORo%=0TO3STEP3
-
- 1580   P%=dminus%
-
- 1590   [:OPTo%
-
- 1600   CPX#stkbot%-2
-
- 1610   BCSunderflow
-
- 1620   CLC
-
- 1630   LDAstk%+3,X
-
- 1640   EOR#&FF
-
- 1650   ADC#&01
-
- 1660   STAstk%+3,X
-
- 1670   LDAstk%+4,X
-
- 1680   EOR#&FF
-
- 1690   ADC#&00
-
- 1700   STAstk%+4,X
-
- 1710   LDAstk%+1,X
-
- 1720   EOR#&FF
-
- 1730   ADC#&00
-
- 1740   STAstk%+1,X
-
- 1750   LDAstk%+2,X
-
- 1760   EOR#&FF
-
- 1770   ADC#&00
-
- 1780   STAstk%+2,X
-
- 1790   RTS
-
- 1800   .underflow
-
- 1810   LDA#estku%
-
- 1820   JMP(svct%)
-
- 1830   ]:NEXTo%
-
- 1840 PROCheader("1+")
-
- 1850 oneplus%=P%
-
- 1860 FORo%=0TO3STEP3
-
- 1870   P%=oneplus%
-
- 1880   [:OPTo%
-
- 1890   CPX#stkbot%
-
- 1900   BEQunderflow
-
- 1910   INCstk%+1,X
-
- 1920   BNEnooverflow
-
- 1930   INCstk%+2,X
-
- 1940   .nooverflow
-
- 1950   RTS
-
- 1960   .underflow
-
- 1970   LDA#estku%
-
- 1980   JMP(svct%)
-
- 1990   ]:NEXTo%
-
- 2000 PROCheader("1-")
-
- 2010 oneminus%=P%
-
- 2020 FORo%=0TO3STEP3
-
- 2030   P%=oneminus%
-
- 2040   [:OPTo%
-
- 2050   CPX#stkbot%
-
- 2060   BEQunderflow
-
- 2070   LDAstk%+1,X
-
- 2080   BNEnooverflow
-
- 2090   DECstk%+2,X
-
- 2100   .nooverflow
-
- 2110   DECstk%+1,X
-
- 2120   RTS
-
- 2130   LDA#estku%
-
- 2140   JMP(svct%)
-
- 2150   ]:NEXTo%
-
- 2160 PROCheader("2+")
-
- 2170 twoplus%=P%
-
- 2180 FORo%=0TO3STEP3
-
- 2190   P%=twoplus%
-
- 2200   [:OPTo%
-
- 2210   CPX#stkbot%
-
- 2220   BEQunderflow
-
- 2230   CLC
-
- 2240   LDAstk%+1,X
-
- 2250   ADC#&02
-
- 2260   STAstk%+1,X
-
- 2270   BCCtwoplusend
-
- 2280   INCstk%+2,X
-
- 2290   .twoplusend 
-
- 2300   RTS
-
- 2310   .underflow
-
- 2320   LDA#estku%
-
- 2330   JMP(svct%)
-
- 2340   ]:NEXTo%
-
- 2350 PROCheader("2-")
-
- 2360 twominus%=P%
-
- 2370 FORo%=0TO3STEP3
-
- 2380   P%=twominus%
-
- 2390   [:OPTo%
-
- 2400   CPX#stkbot%
-
- 2410   BEQunderflow
-
- 2420   SEC
-
- 2430   LDAstk%+1,X
-
- 2440   SBC#&02
-
- 2450   STAstk%+1,X
-
- 2460   BCStwominusend
-
- 2470   DECstk%+2,X
-
- 2480   .twominusend
-
- 2490   RTS
-
- 2500   .underflow
-
- 2510   LDA#estku%
-
- 2520   JMP(svct%)
-
- 2530   ]:NEXTo%
-
- 2540 PROCheader("min")
-
- 2550 min%=P%
-
- 2560 FORo%=0TO3STEP3
-
- 2570   P%=min%
-
- 2580   [:OPTo%
-
- 2590   CPX#stkbot%-2
-
- 2600   BCSunderflow
-
- 2610   SEC
-
- 2620   LDAstk%+1,X
-
- 2630   SBCstk%+3,X
-
- 2640   LDAstk%+2,X
-
- 2650   SBCstk%+4,X
-
- 2660   BPLminend
-
- 2670   LDAstk%+1,X
-
- 2680   STAstk%+3,X
-
- 2690   LDAstk%+2,X
-
- 2700   STAstk%+4,X
-
- 2710   .minend
-
- 2720   INX:INX
-
- 2730   RTS
-
- 2740   .underflow
-
- 2750   LDA#estku%
-
- 2760   JMP(svct%)
-
- 2770   ]:NEXTo%
-
- 2780 PROCheader("max")
-
- 2790 max%=P%
-
- 2800 FORo%=0TO3STEP3
-
- 2810   P%=max%
-
- 2820   [:OPTo%
-
- 2830   CPX#stkbot%-2
-
- 2840   BCSunderflow
-
- 2850   SEC
-
- 2860   LDAstk%+3,X
-
- 2870   SBCstk%+1,X
-
- 2880   LDAstk%+4,X
-
- 2890   SBCstk%+2,X
-
- 2900   BPLmaxend
-
- 2910   LDAstk%+1,X
-
- 2920   STAstk%+3,X
-
- 2930   LDAstk%+2,X
-
- 2940   STAstk%+4,X
-
- 2950   .maxend
-
- 2960   INX:INX
-
- 2970   RTS
-
- 2980   .underflow
-
- 2990   LDA#estku%
-
- 3000   JMP(svct%)
-
- 3010   ]:NEXTo%
-
- 3020 PROCheader("+-")
-
- 3030 plusminus%=P%
-
- 3040 FORo%=0TO3STEP3
-
- 3050   P%=plusminus%
-
- 3060   [:OPTo%
-
- 3070   CPX#stkbot%-2
-
- 3080   BCSunderflow
-
- 3090   LDAstk%+2,X
-
- 3100   ASLA
-
- 3110   BCCpmend
-
- 3120   CLC
-
- 3130   LDAstk%+3,X
-
- 3140   EOR#&FF
-
- 3150   ADC#&01
-
- 3160   STAstk%+3,X
-
- 3170   LDAstk%+4,X
-
- 3180   EOR#&FF
-
- 3190   ADC#&00
-
- 3200   STAstk%+4,X
-
- 3210   .pmend
-
- 3220   INX:INX
-
- 3230   RTS
-
- 3240   .underflow
-
- 3250   LDA#estku%
-
- 3260   JMP(svct%)
-
- 3270   ]:NEXTo%
-
- 3280 PROCheader("d+-")
-
- 3290 dplusminus%=P%
-
- 3300 FORo%=0TO3STEP3
-
- 3310   P%=dplusminus%
-
- 3320   [:OPTo%
-
- 3330   CPX#stkbot%-4
-
- 3340   BCSunderflow
-
- 3350   LDAstk%+2,X
-
- 3360   ASLA
-
- 3370   BCCdpmend
-
- 3380   CLC
-
- 3390   LDAstk%+5,X
-
- 3400   EOR#&FF
-
- 3410   ADC#&01
-
- 3420   STAstk%+5,X
-
- 3430   LDAstk%+6,X
-
- 3440   EOR#&FF
-
- 3450   ADC#&00
-
- 3460   STAstk%+6,X
-
- 3470   LDAstk%+3,X
-
- 3480   EOR#&FF
-
- 3490   ADC#&00
-
- 3500   STAstk%+3,X
-
- 3510   LDAstk%+4,X
-
- 3520   EOR#&FF
-
- 3530   ADC#&00
-
- 3540   STAstk%+4,X
-
- 3550   .dpmend
-
- 3560   INX:INX
-
- 3570   RTS
-
- 3580   .underflow
-
- 3590   LDA#estku%
-
- 3600   JMP(svct%)
-
- 3610   ]:NEXTo%
-
- 3620 PROCheader("s->d")
-
- 3630 stod%=P%
-
- 3640 FORo%=0TO3STEP3
-
- 3650   P%=stod%
-
- 3660   [:OPTo%
-
- 3670   CPX#stkbot%
-
- 3680   BEQunderflow
-
- 3690   CPX#stktop%
-
- 3700   BEQoverflow
-
- 3710   DEX:DEX
-
- 3720   LDAstk%+4,X
-
- 3730   ASLA
-
- 3740   BCCpositive
-
- 3750   LDA#&FF
-
- 3760   STAstk%+1,X
-
- 3770   STAstk%+2,X
-
- 3780   RTS
-
- 3790   .positive
-
- 3800   LDA#&00
-
- 3810   STAstk%+1,X
-
- 3820   STAstk%+2,X
-
- 3830   RTS
-
- 3840   .underflow
-
- 3850   LDA#estku%
-
- 3860   JMP(svct%)
-
- 3870   .overflow
-
- 3880   LDA#estko%
-
- 3890   JMP(svct%)
-
- 3900   ]:NEXTo%
-
- 3910 OSCLI("EXEC E.MATHS")
-
- 3920 END
-
- 3930 DEFPROCheader(name$)
-
- 3940 PRINT:PRINT
-
- 3950 PRINT"  *** ";~P%;" nfa '";name$;"'"
-
- 3960 LETxhere%=P%
-
- 3970 LETspan%=LEN(name$)
-
- 3980 ?P%=span%
-
- 3990 PROCsetbit(7,P%)
-
- 4000 LETP%=P%+1
-
- 4010 IFspan% > length%THENspan%=length%
-
- 4020 FORi%=1TOspan%
-
- 4030   ?P%=ASC(MID$(name$,i%,1))
-
- 4040   LETP%=P%+1
-
- 4050   NEXTi%
-
- 4060 PRINT"  *** ";~P%;" lfa (";~last%;")"
-
- 4070 PROCsetbit(7,P%-1)
-
- 4080 PROCpoke(last%,P%)
-
- 4090 LETP%=P%+2
-
- 4100 LETlast%=xhere%
-
- 4110 LETlabel%=label%+1
-
- 4120 PRINT:PRINT
-
- 4130 ENDPROC
-
- 4140 DEFPROCsetbit(bit%,addr%)
-
- 4150 ?addr%=?addr%OR(2^bit%)
-
- 4160 ENDPROC
-
- 4170 DEFPROCpoke(val%,addr%)
-
- 4180 ?addr%=val%MOD256
-
- 4190 ?(addr%+1)=val%DIV256
-
- 4200 ENDPROC
-
- 4210 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
+   10PROCheader("+")
+   20add%=P%
+   30FORo%=0TO3STEP3
+   40P%=add%
+   50[:OPTo%
+   60CPX#stkbot%-2
+   70BCSunderflow
+   80CLC
+   90INX:INX
+  100LDAstk%-1,X
+  110ADCstk%+1,X
+  120STAstk%+1,X
+  130LDAstk%,X
+  140ADCstk%+2,X
+  150STAstk%+2,X
+  160RTS
+  170.underflow
+  180LDA#estku%
+  190JMP(svct%)
+  200]:NEXTo%
+  210PROCheader("d+")
+  220dadd%=P%
+  230FORo%=0TO3STEP3
+  240P%=dadd%
+  250[:OPTo%
+  260CPX#stkbot%-6
+  270BCSunderflow
+  280CLC
+  290LDAstk%+3,X
+  300ADCstk%+7,X
+  310STAstk%+7,X
+  320LDAstk%+4,X
+  330ADCstk%+8,X
+  340STAstk%+8,X
+  350LDAstk%+1,X
+  360ADCstk%+5,X
+  370STAstk%+5,X
+  380LDAstk%+2,X
+  390ADCstk%+6,X
+  400STAstk%+6,X
+  410INX:INX:INX:INX
+  420RTS
+  430.underflow
+  440LDA#estku%
+  450JMP(svct%)
+  460]:NEXTo%
+  470PROCheader("u*")
+  480umul%=P%
+  490FORo%=0TO3STEP3
+  500P%=umul%
+  510[:OPTo%
+  520CPX#stkbot%-2
+  530BCSunderflow
+  540LDAstk%+3,X:STAsc%
+  550LDAstk%+4,X:STAsc%+1
+  560LDA#&00
+  570STAstk%+3,X:STAstk%+4,X
+  580LDY#&10
+  590.rotate
+  600ASLstk%+3,X
+  610ROLstk%+4,X
+  620ROLstk%+1,X
+  630ROLstk%+2,X
+  640BCCmodify
+  650CLC
+  660LDAsc%
+  670ADCstk%+3,X
+  680STAstk%+3,X
+  690LDAsc%+1
+  700ADCstk%+4,X
+  710STAstk%+4,X
+  720BCCmodify
+  730INCstk%+1,X
+  740BNEmodify
+  750INCstk%+2,X
+  760.modify
+  770DEY
+  780BNErotate
+  790RTS
+  800.underflow
+  810LDA#estku%
+  820JMP(svct%)
+  830]:NEXTo%
+  840PROCheader("u/")
+  850udiv%=P%
+  860FORo%=0TO3STEP3
+  870P%=udiv%
+  880[:OPTo%
+  890CPX#stkbot%-4
+  900BCSunderflow
+  910LDAstk%+1,X
+  920BNEnonzero
+  930LDAstk%+2,X
+  940BEQdivzero
+  950.nonzero
+  960LDAstk%+5,X
+  970LDYstk%+3,X
+  980STYstk%+5,X
+  990ASLA
+ 1000STAstk%+3,X
+ 1010LDAstk%+6,X
+ 1020LDYstk%+4,X
+ 1030STYstk%+6,X
+ 1040ROLA
+ 1050STAstk%+4,X
+ 1060LDA#&10
+ 1070STAsc%
+ 1080.rotate
+ 1090ROLstk%+5,X 
+ 1100ROLstk%+6,X
+ 1110SEC
+ 1120LDAstk%+5,X
+ 1130SBCstk%+1,X
+ 1140TAY
+ 1150LDAstk%+6,X
+ 1160SBCstk%+2,X
+ 1170BCCmodify
+ 1180STYstk%+5,X
+ 1190STAstk%+6,X
+ 1200.modify
+ 1210ROLstk%+3,X
+ 1220ROLstk%+4,X
+ 1230DECsc%
+ 1240BNErotate
+ 1250INX:INX
+ 1260RTS
+ 1270.underflow
+ 1280LDA#estku%
+ 1290JMP(svct%)
+ 1300.divzero
+ 1310LDA#edzero%
+ 1320JMP(svct%)
+ 1330]:NEXTo%
+ 1340PROCheader("minus")
+ 1350minus%=P%
+ 1360FORo%=0TO3STEP3
+ 1370P%=minus%
+ 1380[:OPTo%
+ 1390CPX#stkbot%
+ 1400BEQunderflow
+ 1410CLC
+ 1420LDAstk%+1,X
+ 1430EOR#&FF
+ 1440ADC#&01
+ 1450STAstk%+1,X
+ 1460LDAstk%+2,X
+ 1470EOR#&FF
+ 1480ADC#&00
+ 1490STAstk%+2,X
+ 1500RTS
+ 1510.underflow
+ 1520LDA#estku%
+ 1530JMP(svct%)
+ 1540]:NEXTo%
+ 1550PROCheader("dminus")
+ 1560dminus%=P%
+ 1570FORo%=0TO3STEP3
+ 1580P%=dminus%
+ 1590[:OPTo%
+ 1600CPX#stkbot%-2
+ 1610BCSunderflow
+ 1620CLC
+ 1630LDAstk%+3,X
+ 1640EOR#&FF
+ 1650ADC#&01
+ 1660STAstk%+3,X
+ 1670LDAstk%+4,X
+ 1680EOR#&FF
+ 1690ADC#&00
+ 1700STAstk%+4,X
+ 1710LDAstk%+1,X
+ 1720EOR#&FF
+ 1730ADC#&00
+ 1740STAstk%+1,X
+ 1750LDAstk%+2,X
+ 1760EOR#&FF
+ 1770ADC#&00
+ 1780STAstk%+2,X
+ 1790RTS
+ 1800.underflow
+ 1810LDA#estku%
+ 1820JMP(svct%)
+ 1830]:NEXTo%
+ 1840PROCheader("1+")
+ 1850oneplus%=P%
+ 1860FORo%=0TO3STEP3
+ 1870P%=oneplus%
+ 1880[:OPTo%
+ 1890CPX#stkbot%
+ 1900BEQunderflow
+ 1910INCstk%+1,X
+ 1920BNEnooverflow
+ 1930INCstk%+2,X
+ 1940.nooverflow
+ 1950RTS
+ 1960.underflow
+ 1970LDA#estku%
+ 1980JMP(svct%)
+ 1990]:NEXTo%
+ 2000PROCheader("1-")
+ 2010oneminus%=P%
+ 2020FORo%=0TO3STEP3
+ 2030P%=oneminus%
+ 2040[:OPTo%
+ 2050CPX#stkbot%
+ 2060BEQunderflow
+ 2070LDAstk%+1,X
+ 2080BNEnooverflow
+ 2090DECstk%+2,X
+ 2100.nooverflow
+ 2110DECstk%+1,X
+ 2120RTS
+ 2130LDA#estku%
+ 2140JMP(svct%)
+ 2150]:NEXTo%
+ 2160PROCheader("2+")
+ 2170twoplus%=P%
+ 2180FORo%=0TO3STEP3
+ 2190P%=twoplus%
+ 2200[:OPTo%
+ 2210CPX#stkbot%
+ 2220BEQunderflow
+ 2230CLC
+ 2240LDAstk%+1,X
+ 2250ADC#&02
+ 2260STAstk%+1,X
+ 2270BCCtwoplusend
+ 2280INCstk%+2,X
+ 2290.twoplusend 
+ 2300RTS
+ 2310.underflow
+ 2320LDA#estku%
+ 2330JMP(svct%)
+ 2340]:NEXTo%
+ 2350PROCheader("2-")
+ 2360twominus%=P%
+ 2370FORo%=0TO3STEP3
+ 2380P%=twominus%
+ 2390[:OPTo%
+ 2400CPX#stkbot%
+ 2410BEQunderflow
+ 2420SEC
+ 2430LDAstk%+1,X
+ 2440SBC#&02
+ 2450STAstk%+1,X
+ 2460BCStwominusend
+ 2470DECstk%+2,X
+ 2480.twominusend
+ 2490RTS
+ 2500.underflow
+ 2510LDA#estku%
+ 2520JMP(svct%)
+ 2530]:NEXTo%
+ 2540PROCheader("min")
+ 2550min%=P%
+ 2560FORo%=0TO3STEP3
+ 2570P%=min%
+ 2580[:OPTo%
+ 2590CPX#stkbot%-2
+ 2600BCSunderflow
+ 2610SEC
+ 2620LDAstk%+1,X
+ 2630SBCstk%+3,X
+ 2640LDAstk%+2,X
+ 2650SBCstk%+4,X
+ 2660BPLminend
+ 2670LDAstk%+1,X
+ 2680STAstk%+3,X
+ 2690LDAstk%+2,X
+ 2700STAstk%+4,X
+ 2710.minend
+ 2720INX:INX
+ 2730RTS
+ 2740.underflow
+ 2750LDA#estku%
+ 2760JMP(svct%)
+ 2770]:NEXTo%
+ 2780PROCheader("max")
+ 2790max%=P%
+ 2800FORo%=0TO3STEP3
+ 2810P%=max%
+ 2820[:OPTo%
+ 2830CPX#stkbot%-2
+ 2840BCSunderflow
+ 2850SEC
+ 2860LDAstk%+3,X
+ 2870SBCstk%+1,X
+ 2880LDAstk%+4,X
+ 2890SBCstk%+2,X
+ 2900BPLmaxend
+ 2910LDAstk%+1,X
+ 2920STAstk%+3,X
+ 2930LDAstk%+2,X
+ 2940STAstk%+4,X
+ 2950.maxend
+ 2960INX:INX
+ 2970RTS
+ 2980.underflow
+ 2990LDA#estku%
+ 3000JMP(svct%)
+ 3010]:NEXTo%
+ 3020PROCheader("+-")
+ 3030plusminus%=P%
+ 3040FORo%=0TO3STEP3
+ 3050P%=plusminus%
+ 3060[:OPTo%
+ 3070CPX#stkbot%-2
+ 3080BCSunderflow
+ 3090LDAstk%+2,X
+ 3100ASLA
+ 3110BCCpmend
+ 3120CLC
+ 3130LDAstk%+3,X
+ 3140EOR#&FF
+ 3150ADC#&01
+ 3160STAstk%+3,X
+ 3170LDAstk%+4,X
+ 3180EOR#&FF
+ 3190ADC#&00
+ 3200STAstk%+4,X
+ 3210.pmend
+ 3220INX:INX
+ 3230RTS
+ 3240.underflow
+ 3250LDA#estku%
+ 3260JMP(svct%)
+ 3270]:NEXTo%
+ 3280PROCheader("d+-")
+ 3290dplusminus%=P%
+ 3300FORo%=0TO3STEP3
+ 3310P%=dplusminus%
+ 3320[:OPTo%
+ 3330CPX#stkbot%-4
+ 3340BCSunderflow
+ 3350LDAstk%+2,X
+ 3360ASLA
+ 3370BCCdpmend
+ 3380CLC
+ 3390LDAstk%+5,X
+ 3400EOR#&FF
+ 3410ADC#&01
+ 3420STAstk%+5,X
+ 3430LDAstk%+6,X
+ 3440EOR#&FF
+ 3450ADC#&00
+ 3460STAstk%+6,X
+ 3470LDAstk%+3,X
+ 3480EOR#&FF
+ 3490ADC#&00
+ 3500STAstk%+3,X
+ 3510LDAstk%+4,X
+ 3520EOR#&FF
+ 3530ADC#&00
+ 3540STAstk%+4,X
+ 3550.dpmend
+ 3560INX:INX
+ 3570RTS
+ 3580.underflow
+ 3590LDA#estku%
+ 3600JMP(svct%)
+ 3610]:NEXTo%
+ 3620PROCheader("s->d")
+ 3630stod%=P%
+ 3640FORo%=0TO3STEP3
+ 3650P%=stod%
+ 3660[:OPTo%
+ 3670CPX#stkbot%
+ 3680BEQunderflow
+ 3690CPX#stktop%
+ 3700BEQoverflow
+ 3710DEX:DEX
+ 3720LDAstk%+4,X
+ 3730ASLA
+ 3740BCCpositive
+ 3750LDA#&FF
+ 3760STAstk%+1,X
+ 3770STAstk%+2,X
+ 3780RTS
+ 3790.positive
+ 3800LDA#&00
+ 3810STAstk%+1,X
+ 3820STAstk%+2,X
+ 3830RTS
+ 3840.underflow
+ 3850LDA#estku%
+ 3860JMP(svct%)
+ 3870.overflow
+ 3880LDA#estko%
+ 3890JMP(svct%)
+ 3900]:NEXTo%
+ 3910OSCLI("EXEC E.MATHS")
+ 3920END
+ 3930DEFPROCheader(name$)
+ 3940PRINT:PRINT
+ 3950PRINT"  *** ";~P%;" nfa '";name$;"'"
+ 3960LETxhere%=P%
+ 3970LETspan%=LEN(name$)
+ 3980?P%=span%
+ 3990PROCsetbit(7,P%)
+ 4000LETP%=P%+1
+ 4010IFspan% > length%THENspan%=length%
+ 4020FORi%=1TOspan%
+ 4030?P%=ASC(MID$(name$,i%,1))
+ 4040LETP%=P%+1
+ 4050NEXTi%
+ 4060PRINT"  *** ";~P%;" lfa (";~last%;")"
+ 4070PROCsetbit(7,P%-1)
+ 4080PROCpoke(last%,P%)
+ 4090LETP%=P%+2
+ 4100LETlast%=xhere%
+ 4110LETlabel%=label%+1
+ 4120PRINT:PRINT
+ 4130ENDPROC
+ 4140DEFPROCsetbit(bit%,addr%)
+ 4150?addr%=?addr%OR(2^bit%)
+ 4160ENDPROC
+ 4170DEFPROCpoke(val%,addr%)
+ 4180?addr%=val%MOD256
+ 4190?(addr%+1)=val%DIV256
+ 4200ENDPROC
+ 4210DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
