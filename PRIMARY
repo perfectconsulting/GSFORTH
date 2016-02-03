@@ -1,1152 +1,576 @@
-
-   10 PROCheader("s0")
-
-   20 sbase%=P%
-
-   30 FORo%=0TO3STEP3
-
-   40   P%=sbase%
-
-   50   [:OPTo%
-
-   60   OPT FNliteral(stkbot%)
-
-   70   RTS
-
-   80   ]:NEXTo%
-
-   90 PROCheader("a0")
-
-  100 abase%=P%
-
-  110 FORo%=0TO3STEP3
-
-  120   P%=abase%
-
-  130   [:OPTo%
-
-  140   OPT FNliteral(astkbot%)
-
-  150   RTS
-
-  160   ]:NEXTo%
-
-  170 PROCheader("dp")
-
-  180 dp%=P%
-
-  190 FORo%=0TO3STEP3
-
-  200   P%=dp%
-
-  210   [:OPTo%
-
-  220   OPTFNliteral(uvdp%)
-
-  230   JSRplusorigin%
-
-  240   RTS
-
-  250   ]:NEXTo%
-
-  260 PROCheader("state")
-
-  270 state%=P%
-
-  280 FORo%=0TO3STEP3
-
-  290   P%=state%
-
-  300   [:OPTo%
-
-  310   OPTFNliteral(uvstate%)
-
-  320   JSRplusorigin%
-
-  330   RTS
-
-  340   ]:NEXTo%
-
-  350 PROCheader("tib")
-
-  360 tib%=P%
-
-  370 FORo%=0TO3STEP3
-
-  380   P%=tib%
-
-  390   [:OPTo%
-
-  400   OPTFNliteral(uvtib%)
-
-  410   JSRplusorigin%
-
-  420   RTS
-
-  430   ]:NEXTo%
-
-  440 PROCheader("in")
-
-  450 in%=P%
-
-  460 FORo%=0TO3STEP3
-
-  470   P%=in%
-
-  480   [:OPTo%
-
-  490   OPTFNliteral(uvin%)
-
-  500   JSRplusorigin%
-
-  510   RTS
-
-  520   ]:NEXTo%
-
-  530 PROCheader("base")
-
-  540 base%=P%
-
-  550 FORo%=0TO3STEP3
-
-  560   P%=base%
-
-  570   [:OPTo%
-
-  580   OPTFNliteral(uvbase%)
-
-  590   JSRplusorigin%
-
-  600   RTS
-
-  610   ]:NEXTo%
-
-  620 PROCheader("current")
-
-  630 current%=P%
-
-  640 FORo%=0TO3STEP3
-
-  650   P%=current%
-
-  660   [:OPTo%
-
-  670   OPTFNliteral(uvcurrent%)
-
-  680   JSRplusorigin%
-
-  690   RTS
-
-  700   ]:NEXTo%
-
-  710 PROCheader("context")
-
-  720 context%=P%
-
-  730 FORo%=0TO3STEP3
-
-  740   P%=context%
-
-  750   [:OPTo%
-
-  760   OPTFNliteral(uvcontext%)
-
-  770   JSRplusorigin%
-
-  780   RTS
-
-  790   ]:NEXTo%
-
-  800 PROCheader("latest")
-
-  810 latest%=P%
-
-  820 FORo%=0TO3STEP3
-
-  830   P%=latest%
-
-  840   [:OPTo%
-
-  850   JSRcurrent%
-
-  860   JSRfetch%
-
-  870   JSRfetch%
-
-  880   RTS
-
-  890   ]:NEXTo%
-
-  900 PROCheader("width")
-
-  910 width%=P%
-
-  920 FORo%=0TO3STEP3
-
-  930   P%=width%
-
-  940   [:OPTo%
-
-  950   OPTFNliteral(uvwidth%)
-
-  960   JSRplusorigin%
-
-  970   RTS
-
-  980   ]:NEXTo%
-
-  990 PROCheader("out")
-
- 1000 out%=P%
-
- 1010 FORo%=0TO3STEP3
-
- 1020   P%=out%
-
- 1030   [:OPTo%
-
- 1040   OPTFNliteral(uvout%)
-
- 1050   JSRplusorigin%
-
- 1060   RTS
-
- 1070   ]:NEXTo%
-
- 1080 PROCheader("dpl")
-
- 1090 dpl%=P%
-
- 1100 FORo%=0TO3STEP3
-
- 1110   P%=dpl%
-
- 1120   [:OPTo%
-
- 1130   OPTFNliteral(uvdpl%)
-
- 1140   JSRplusorigin%
-
- 1150   RTS
-
- 1160   ]:NEXTo%
-
- 1170 PROCheader("blk")
-
- 1180 blk%=P%
-
- 1190 FORo%=0TO3STEP3
-
- 1200   P%=blk%
-
- 1210   [:OPTo%
-
- 1220   OPTFNliteral(uvblk%)
-
- 1230   JSRplusorigin%
-
- 1240   RTS
-
- 1250   ]:NEXTo%
-
- 1260 PROCheader("scr")
-
- 1270 scr%=P%
-
- 1280 FORo%=0TO3STEP3
-
- 1290   P%=scr%
-
- 1300   [:OPTo%
-
- 1310   OPT FNliteral(uvscr%)
-
- 1320   JSRplusorigin%
-
- 1330   RTS
-
- 1340   ]:NEXTo%
-
- 1350 PROCheader("warning")
-
- 1360 warning%=P%
-
- 1370 FORo%=0TO3STEP3
-
- 1380   P%=warning%
-
- 1390   [:OPTo%
-
- 1400   OPTFNliteral(uvwarning%)
-
- 1410   JSRplusorigin%
-
- 1420   RTS
-
- 1430   ]:NEXTo%
-
- 1440 PROCheader("limit")
-
- 1450 limit%=P%
-
- 1460 FORo%=0TO3STEP3
-
- 1470   P%=limit%
-
- 1480   [:OPTo%
-
- 1490   OPT FNliteral(uvlimit%)
-
- 1500   JSRplusorigin%
-
- 1510   RTS
-
- 1520   ]:NEXTo%
-
- 1530 PROCheader("csp")
-
- 1540 csp%=P%
-
- 1550 FORo%=0TO3STEP3
-
- 1560   P%=csp%
-
- 1570   [:OPTo%
-
- 1580   OPT FNliteral(uvcsp%)
-
- 1590   JSRplusorigin%
-
- 1600   RTS
-
- 1610   ]:NEXTo%
-
- 1620 PROCheader("hld")
-
- 1630 hld%=P%
-
- 1640 FORo%=0TO3STEP3
-
- 1650   P%=hld%
-
- 1660   [:OPTo%
-
- 1670   OPT FNliteral(uvhld%)
-
- 1680   JSRplusorigin%
-
- 1690   RTS
-
- 1700   ]:NEXTo%
-
- 1710 PROCheader("voc-link")
-
- 1720 voclink%=P%
-
- 1730 FORo%=0TO3STEP3
-
- 1740   P%=voclink%
-
- 1750   [:OPTo%
-
- 1760   OPT FNliteral(uvvoclink%)
-
- 1770   JSRplusorigin%
-
- 1780   RTS
-
- 1790   ]:NEXTo%
-
- 1800 PROCheader("c/l")
-
- 1810 cl%=P%
-
- 1820 FORo%=0TO3STEP3
-
- 1830   P%=cl%
-
- 1840   [:OPTo%
-
- 1850   OPT FNliteral(uvcl%)
-
- 1860   JSRplusorigin%
-
- 1870   RTS
-
- 1880   ]:NEXTo%
-
- 1890 PROCheader("fence")
-
- 1900 fence%=P%
-
- 1910 FORo%=0TO3STEP3
-
- 1920   P%=fence%
-
- 1930   [:OPTo%
-
- 1940   OPT FNliteral(uvfence%)
-
- 1950   JSRplusorigin%
-
- 1960   RTS
-
- 1970   ]:NEXTo%
-
- 1980 PROCheader("b/buf")
-
- 1990 bbuf%=P%
-
- 2000 FORo%=0TO3STEP3
-
- 2010   P%=bbuf%
-
- 2020   [:OPTo%
-
- 2030   OPT FNliteral(uvbbuf%)
-
- 2040   JSRplusorigin%
-
- 2050   RTS
-
- 2060   ]:NEXTo%
-
- 2070 PROCheader("#buf")
-
- 2080 hbuf%=P%
-
- 2090 FORo%=0TO3STEP3
-
- 2100   P%=hbuf%
-
- 2110   [:OPTo%
-
- 2120   OPT FNliteral(uvhbuf%)
-
- 2130   JSRplusorigin%
-
- 2140   RTS
-
- 2150   ]:NEXTo%
-
- 2160 PROCheader("channel")
-
- 2170 channel%=P%
-
- 2180 FORo%=0TO3STEP3
-
- 2190   P%=channel%
-
- 2200   [:OPTo%
-
- 2210   OPT FNliteral(uvchannel%)
-
- 2220   JSRplusorigin%
-
- 2230   RTS
-
- 2240   ]:NEXTo%
-
- 2250 PROCheader("use")
-
- 2260 use%=P%
-
- 2270 FORo%=0TO3STEP3
-
- 2280   P%=use%
-
- 2290   [:OPTo%
-
- 2300   OPT FNliteral(uvuse%)
-
- 2310   JSRplusorigin%
-
- 2320   RTS
-
- 2330   ]:NEXTo%
-
- 2340 PROCheader("prev")
-
- 2350 prev%=P%
-
- 2360 FORo%=0TO3STEP3
-
- 2370   P%=prev%
-
- 2380   [:OPTo%
-
- 2390   OPT FNliteral(uvprev%)
-
- 2400   JSRplusorigin%
-
- 2410   RTS
-
- 2420   ]:NEXTo%
-
- 2430 PROCheader("f/l")
-
- 2440 fl%=P%
-
- 2450 FORo%=0TO3STEP3
-
- 2460   P%=fl%
-
- 2470   [:OPTo%
-
- 2480   OPT FNliteral(uvfl%)
-
- 2490   JSRplusorigin%
-
- 2500   RTS
-
- 2510   ]:NEXTo%
-
- 2520 PROCheader("bl")
-
- 2530 bl%=P%
-
- 2540 FORo%=0TO3STEP3
-
- 2550   P%=bl%
-
- 2560   [:OPTo%
-
- 2570   OPT FNliteral(&20)
-
- 2580   RTS
-
- 2590   ]:NEXTo%
-
- 2600 PROCheader("here")
-
- 2610 here%=P%
-
- 2620 FORo%=0TO3STEP3
-
- 2630   P%=here%
-
- 2640   [:OPTo%
-
- 2650   JSRdp%
-
- 2660   JSRfetch%
-
- 2670   RTS
-
- 2680   ]:NEXTo%
-
- 2690 PROCheader("allot")
-
- 2700 allot%=P%
-
- 2710 FORo%=0TO3STEP3
-
- 2720   P%=allot%
-
- 2730   [:OPTo%
-
- 2740   JSRdup%
-
- 2750   JSRhere%
-
- 2760   JSRadd%
-
- 2770   JSRlimit%
-
- 2780   JSRfetch%
-
- 2790   JSRgreater%
-
- 2800   OPT FNliteral(enomem%)
-
- 2810   .apatch
-
- 2820   JSR&0000
-
- 2830   JSRdp%
-
- 2840   JSRplusstore%
-
- 2850   RTS
-
- 2860   ]:NEXTo%
-
- 2870 PROCheader("erase")
-
- 2880 erase%=P%
-
- 2890 FORo%=0TO3STEP3
-
- 2900   P%=erase%
-
- 2910   [:OPTo%
-
- 2920   OPT FNliteral(&00)
-
- 2930   JSRfill%
-
- 2940   RTS
-
- 2950   ]:NEXTo%
-
- 2960 PROCheader("blanks")
-
- 2970 blanks%=P%
-
- 2980 FORo%=0TO3STEP3
-
- 2990   P%=blanks%
-
- 3000   [:OPTo%
-
- 3010   OPT FNliteral(&20)
-
- 3020   JSRfill%
-
- 3030   RTS
-
- 3040   ]:NEXTo%
-
- 3050 PROCheader(",")
-
- 3060 comma%=P%
-
- 3070 FORo%=0TO3STEP3
-
- 3080   P%=comma%
-
- 3090   [:OPTo%
-
- 3100   JSRhere%
-
- 3110   OPT FNliteral(&02)
-
- 3120   JSRallot%
-
- 3130   JSRstore%
-
- 3140   RTS
-
- 3150   ]:NEXTo%
-
- 3160 PROCheader("c,")
-
- 3170 ccomma%=P%
-
- 3180 FORo%=0TO3STEP3
-
- 3190   P%=ccomma%
-
- 3200   [:OPTo%
-
- 3210   JSRhere%
-
- 3220   OPT FNliteral(&01)
-
- 3230   JSRallot%
-
- 3240   JSRcstore%
-
- 3250   RTS
-
- 3260   ]:NEXTo%
-
- 3270 PROCheader("jsr,")
-
- 3280 jsrc%=P%
-
- 3290 FORo%=0TO3STEP3
-
- 3300   P%=jsrc%
-
- 3310   [:OPTo%
-
- 3320   OPT FNliteral(&20)
-
- 3330   JSRccomma%
-
- 3340   JSRcomma%
-
- 3350   RTS
-
- 3360   ]:NEXTo%
-
- 3370 PROCheader("rts,")
-
- 3380 rtsc%=P%
-
- 3390 FORo%=0TO3STEP3
-
- 3400   P%=rtsc%
-
- 3410   [:OPTo%
-
- 3420   OPT FNliteral(&60)
-
- 3430   JSRccomma%
-
- 3440   RTS
-
- 3450   ]:NEXTo%
-
- 3460 PROCheader("clc,")
-
- 3470 clcc%=P%
-
- 3480 FORo%=0TO3STEP3
-
- 3490   P%=clcc%
-
- 3500   [:OPTo%
-
- 3510   OPT FNliteral(&18)
-
- 3520   JSRccomma%
-
- 3530   RTS
-
- 3540   ]:NEXTo%
-
- 3550 PROCheader("bcc,")
-
- 3560 bccc%=P%
-
- 3570 FORo%=0TO3STEP3
-
- 3580   P%=bccc%
-
- 3590   [:OPTo%
-
- 3600   OPT FNliteral(&90)
-
- 3610   JSRccomma%
-
- 3620   JSRccomma%
-
- 3630   RTS
-
- 3640   ]:NEXTo%
-
- 3650 PROCheader("bcs,")
-
- 3660 bcsc%=P%
-
- 3670 FORo%=0TO3STEP3
-
- 3680   P%=bcsc%
-
- 3690   [:OPTo%
-
- 3700   OPT FNliteral(&B0)
-
- 3710   JSRccomma%
-
- 3720   JSRccomma%
-
- 3730   RTS
-
- 3740   ]:NEXTo%
-
- 3750 PROCheader("beq,")
-
- 3760 beqc%=P%
-
- 3770 FORo%=0TO3STEP3
-
- 3780   P%=beqc%
-
- 3790   [:OPTo%
-
- 3800   OPT FNliteral(&F0)
-
- 3810   JSRccomma%
-
- 3820   JSRccomma%
-
- 3830   RTS
-
- 3840   ]:NEXTo%
-
- 3850 PROCheader("bne,")
-
- 3860 bnec%=P%
-
- 3870 FORo%=0TO3STEP3
-
- 3880   P%=bnec%
-
- 3890   [:OPTo%
-
- 3900   OPT FNliteral(&D0)
-
- 3910   JSRccomma%
-
- 3920   JSRccomma%
-
- 3930   RTS
-
- 3940   ]:NEXTo%
-
- 3950 PROCheader("abs")
-
- 3960 abs%=P%
-
- 3970 FORo%=0TO3STEP3
-
- 3980   P%=abs%
-
- 3990   [:OPTo%
-
- 4000   JSRdup%
-
- 4010   JSRplusminus%
-
- 4020   RTS
-
- 4030   ]:NEXTo%
-
- 4040 PROCheader("dabs")
-
- 4050 dabs%=P%
-
- 4060 FORo%=0TO3STEP3
-
- 4070   P%=dabs%
-
- 4080   [:OPTo%
-
- 4090   JSRdup%
-
- 4100   JSRdplusminus%
-
- 4110   RTS
-
- 4120   ]:NEXTo%
-
- 4130 PROCheader("-")
-
- 4140 minusadd%=P%
-
- 4150 FORo%=0TO3STEP3
-
- 4160   P%=minusadd%
-
- 4170   [:OPTo%
-
- 4180   JSRminus%
-
- 4190   JSRadd%
-
- 4200   RTS
-
- 4210   ]:NEXTo%
-
- 4220 PROCheader("d-")
-
- 4230 dminusadd%=P%
-
- 4240 FORo%=0TO3STEP3
-
- 4250   P%=dminusadd%
-
- 4260   [:OPTo%
-
- 4270   JSRdminus%
-
- 4280   JSRdadd%
-
- 4290   RTS
-
- 4300   ]:NEXTo%
-
- 4310 PROCheader("m*")
-
- 4320 mmul%=P%
-
- 4330 FORo%=0TO3STEP3
-
- 4340   P%=mmul%
-
- 4350   [:OPTo%
-
- 4360   JSRover%
-
- 4370   JSRover%
-
- 4380   JSRxor%
-
- 4390   JSRtoa%
-
- 4400   JSRabs%
-
- 4410   JSRswap%
-
- 4420   JSRabs%
-
- 4430   JSRumul%
-
- 4440   JSRafrom%
-
- 4450   JSRdplusminus%
-
- 4460   RTS
-
- 4470   ]:NEXTo%
-
- 4480 PROCheader("m/")
-
- 4490 mdiv%=P%
-
- 4500 FORo%=0TO3STEP3
-
- 4510   P%=mdiv%
-
- 4520   [:OPTo%
-
- 4530   JSRover%
-
- 4540   JSRtoa%
-
- 4550   JSRtoa%
-
- 4560   JSRdabs%
-
- 4570   JSRa%
-
- 4580   JSRabs%
-
- 4590   JSRudiv%
-
- 4600   JSRafrom%
-
- 4610   JSRa%
-
- 4620   JSRxor%
-
- 4630   JSRplusminus%
-
- 4640   JSRswap%
-
- 4650   JSRafrom%
-
- 4660   JSRplusminus%
-
- 4670   JSRswap%
-
- 4680   RTS
-
- 4690   ]:NEXTo%
-
- 4700 PROCheader("*")
-
- 4710 mul%=P%
-
- 4720 FORo%=0TO3STEP3
-
- 4730   P%=mul%
-
- 4740   [:OPTo%
-
- 4750   JSRumul%
-
- 4760   JSRdrop%
-
- 4770   RTS
-
- 4780   ]:NEXTo%
-
- 4790 PROCheader("/mod")
-
- 4800 divmod%=P%
-
- 4810 FORo%=0TO3STEP3
-
- 4820   P%=divmod%
-
- 4830   [:OPTo%
-
- 4840   JSRtoa%
-
- 4850   JSRstod%
-
- 4860   JSRafrom%
-
- 4870   JSRmdiv%
-
- 4880   RTS
-
- 4890   ]:NEXTo%
-
- 4900 PROCheader("/")
-
- 4910 div%=P%
-
- 4920 FORo%=0TO3STEP3
-
- 4930   P%=div%
-
- 4940   [:OPTo%
-
- 4950   JSRdivmod%
-
- 4960   JSRswap%
-
- 4970   JSRdrop%
-
- 4980   RTS
-
- 4990   ]:NEXTo%
-
- 5000 PROCheader("mod")
-
- 5010 mod%=P%
-
- 5020 FORo%=0TO3STEP3
-
- 5030   P%=mod%
-
- 5040   [:OPTo%
-
- 5050   JSRdivmod%
-
- 5060   JSRdrop%
-
- 5070   RTS
-
- 5080   ]:NEXTo%
-
- 5090 PROCheader("*/mod")
-
- 5100 muldivmod%=P%
-
- 5110 FORo%=0TO3STEP3
-
- 5120   P%=muldivmod%
-
- 5130   [:OPTo%
-
- 5140   JSRtoa%
-
- 5150   JSRmmul%
-
- 5160   JSRafrom%
-
- 5170   JSRmdiv%
-
- 5180   RTS
-
- 5190   ]:NEXTo%
-
- 5200 PROCheader("*/")
-
- 5210 muldiv%=P%
-
- 5220 FORo%=0TO3STEP3
-
- 5230   P%=muldiv%
-
- 5240   [:OPTo%
-
- 5250   JSRmuldivmod%
-
- 5260   JSRswap%
-
- 5270   JSRdrop%
-
- 5280   RTS
-
- 5290   ]:NEXTo%
-
- 5300 PROCheader("m/mod")
-
- 5310 mdivmod%=P%
-
- 5320 FORo%=0TO3STEP3
-
- 5330   P%=mdivmod%
-
- 5340   [:OPTo%
-
- 5350   JSRtoa%
-
- 5360   OPT FNliteral(&00)
-
- 5370   JSRa%
-
- 5380   JSRudiv%
-
- 5390   JSRafrom%
-
- 5400   JSRswap%
-
- 5410   JSRtoa%
-
- 5420   JSRudiv%
-
- 5430   JSRafrom%
-
- 5440   RTS
-
- 5450   ]:NEXTo%
-
- 5460 OSCLI("*EXEC E.PRIMARY")
-
- 5470 END
-
- 5480 DEFPROCheader(name$)
-
- 5490 PRINT:PRINT
-
- 5500 PRINT"  *** ";~P%;" nfa '";name$;"'"
-
- 5510 LETxhere%=P%
-
- 5520 LETspan%=LEN(name$)
-
- 5530 ?P%=span%
-
- 5540 PROCsetbit(7,P%)
-
- 5550 LETP%=P%+1
-
- 5560 IFspan% > length%THENspan%=length%
-
- 5570 FORi%=1TOspan%
-
- 5580   ?P%=ASC(MID$(name$,i%,1))
-
- 5590   LETP%=P%+1
-
- 5600   NEXTi%
-
- 5610 PRINT"  *** ";~P%;" lfa (";~last%;")"
-
- 5620 PROCsetbit(7,P%-1)
-
- 5630 PROCpoke(last%,P%)
-
- 5640 LETP%=P%+2
-
- 5650 LETlast%=xhere%
-
- 5660 LETlabel%=label%+1
-
- 5670 PRINT:PRINT
-
- 5680 ENDPROC
-
- 5690 DEFPROCsetbit(bit%,addr%)
-
- 5700 ?addr%=?addr%OR(2^bit%)
-
- 5710 ENDPROC
-
- 5720 DEFPROCpoke(val%,addr%)
-
- 5730 ?addr%=val%MOD256
-
- 5740 ?(addr%+1)=val%DIV256
-
- 5750 ENDPROC
-
- 5760 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
+   10PROCheader("s0")
+   20sbase%=P%
+   30FORo%=0TO3STEP3
+   40P%=sbase%
+   50[:OPTo%
+   60OPT FNliteral(stkbot%)
+   70RTS
+   80]:NEXTo%
+   90PROCheader("a0")
+  100abase%=P%
+  110FORo%=0TO3STEP3
+  120P%=abase%
+  130[:OPTo%
+  140OPT FNliteral(astkbot%)
+  150RTS
+  160]:NEXTo%
+  170PROCheader("dp")
+  180dp%=P%
+  190FORo%=0TO3STEP3
+  200P%=dp%
+  210[:OPTo%
+  220OPTFNliteral(uvdp%)
+  230JSRplusorigin%
+  240RTS
+  250]:NEXTo%
+  260PROCheader("state")
+  270state%=P%
+  280FORo%=0TO3STEP3
+  290P%=state%
+  300[:OPTo%
+  310OPTFNliteral(uvstate%)
+  320JSRplusorigin%
+  330RTS
+  340]:NEXTo%
+  350PROCheader("tib")
+  360tib%=P%
+  370FORo%=0TO3STEP3
+  380P%=tib%
+  390[:OPTo%
+  400OPTFNliteral(uvtib%)
+  410JSRplusorigin%
+  420RTS
+  430]:NEXTo%
+  440PROCheader("in")
+  450in%=P%
+  460FORo%=0TO3STEP3
+  470P%=in%
+  480[:OPTo%
+  490OPTFNliteral(uvin%)
+  500JSRplusorigin%
+  510RTS
+  520]:NEXTo%
+  530PROCheader("base")
+  540base%=P%
+  550FORo%=0TO3STEP3
+  560P%=base%
+  570[:OPTo%
+  580OPTFNliteral(uvbase%)
+  590JSRplusorigin%
+  600RTS
+  610]:NEXTo%
+  620PROCheader("current")
+  630current%=P%
+  640FORo%=0TO3STEP3
+  650P%=current%
+  660[:OPTo%
+  670OPTFNliteral(uvcurrent%)
+  680JSRplusorigin%
+  690RTS
+  700]:NEXTo%
+  710PROCheader("context")
+  720context%=P%
+  730FORo%=0TO3STEP3
+  740P%=context%
+  750[:OPTo%
+  760OPTFNliteral(uvcontext%)
+  770JSRplusorigin%
+  780RTS
+  790]:NEXTo%
+  800PROCheader("latest")
+  810latest%=P%
+  820FORo%=0TO3STEP3
+  830P%=latest%
+  840[:OPTo%
+  850JSRcurrent%
+  860JSRfetch%
+  870JSRfetch%
+  880RTS
+  890]:NEXTo%
+  900PROCheader("width")
+  910width%=P%
+  920FORo%=0TO3STEP3
+  930P%=width%
+  940[:OPTo%
+  950OPTFNliteral(uvwidth%)
+  960JSRplusorigin%
+  970RTS
+  980]:NEXTo%
+  990PROCheader("out")
+ 1000out%=P%
+ 1010FORo%=0TO3STEP3
+ 1020P%=out%
+ 1030[:OPTo%
+ 1040OPTFNliteral(uvout%)
+ 1050JSRplusorigin%
+ 1060RTS
+ 1070]:NEXTo%
+ 1080PROCheader("dpl")
+ 1090dpl%=P%
+ 1100FORo%=0TO3STEP3
+ 1110P%=dpl%
+ 1120[:OPTo%
+ 1130OPTFNliteral(uvdpl%)
+ 1140JSRplusorigin%
+ 1150RTS
+ 1160]:NEXTo%
+ 1170PROCheader("blk")
+ 1180blk%=P%
+ 1190FORo%=0TO3STEP3
+ 1200P%=blk%
+ 1210[:OPTo%
+ 1220OPTFNliteral(uvblk%)
+ 1230JSRplusorigin%
+ 1240RTS
+ 1250]:NEXTo%
+ 1260PROCheader("scr")
+ 1270scr%=P%
+ 1280FORo%=0TO3STEP3
+ 1290P%=scr%
+ 1300[:OPTo%
+ 1310OPT FNliteral(uvscr%)
+ 1320JSRplusorigin%
+ 1330RTS
+ 1340]:NEXTo%
+ 1350PROCheader("warning")
+ 1360warning%=P%
+ 1370FORo%=0TO3STEP3
+ 1380P%=warning%
+ 1390[:OPTo%
+ 1400OPTFNliteral(uvwarning%)
+ 1410JSRplusorigin%
+ 1420RTS
+ 1430]:NEXTo%
+ 1440PROCheader("limit")
+ 1450limit%=P%
+ 1460FORo%=0TO3STEP3
+ 1470P%=limit%
+ 1480[:OPTo%
+ 1490OPT FNliteral(uvlimit%)
+ 1500JSRplusorigin%
+ 1510RTS
+ 1520]:NEXTo%
+ 1530PROCheader("csp")
+ 1540csp%=P%
+ 1550FORo%=0TO3STEP3
+ 1560P%=csp%
+ 1570[:OPTo%
+ 1580OPT FNliteral(uvcsp%)
+ 1590JSRplusorigin%
+ 1600RTS
+ 1610]:NEXTo%
+ 1620PROCheader("hld")
+ 1630hld%=P%
+ 1640FORo%=0TO3STEP3
+ 1650P%=hld%
+ 1660[:OPTo%
+ 1670OPT FNliteral(uvhld%)
+ 1680JSRplusorigin%
+ 1690RTS
+ 1700]:NEXTo%
+ 1710PROCheader("voc-link")
+ 1720voclink%=P%
+ 1730FORo%=0TO3STEP3
+ 1740P%=voclink%
+ 1750[:OPTo%
+ 1760OPT FNliteral(uvvoclink%)
+ 1770JSRplusorigin%
+ 1780RTS
+ 1790]:NEXTo%
+ 1800PROCheader("c/l")
+ 1810cl%=P%
+ 1820FORo%=0TO3STEP3
+ 1830P%=cl%
+ 1840[:OPTo%
+ 1850OPT FNliteral(uvcl%)
+ 1860JSRplusorigin%
+ 1870RTS
+ 1880]:NEXTo%
+ 1890PROCheader("fence")
+ 1900fence%=P%
+ 1910FORo%=0TO3STEP3
+ 1920P%=fence%
+ 1930[:OPTo%
+ 1940OPT FNliteral(uvfence%)
+ 1950JSRplusorigin%
+ 1960RTS
+ 1970]:NEXTo%
+ 1980PROCheader("b/buf")
+ 1990bbuf%=P%
+ 2000FORo%=0TO3STEP3
+ 2010P%=bbuf%
+ 2020[:OPTo%
+ 2030OPT FNliteral(uvbbuf%)
+ 2040JSRplusorigin%
+ 2050RTS
+ 2060]:NEXTo%
+ 2070PROCheader("#buf")
+ 2080hbuf%=P%
+ 2090FORo%=0TO3STEP3
+ 2100P%=hbuf%
+ 2110[:OPTo%
+ 2120OPT FNliteral(uvhbuf%)
+ 2130JSRplusorigin%
+ 2140RTS
+ 2150]:NEXTo%
+ 2160PROCheader("channel")
+ 2170channel%=P%
+ 2180FORo%=0TO3STEP3
+ 2190P%=channel%
+ 2200[:OPTo%
+ 2210OPT FNliteral(uvchannel%)
+ 2220JSRplusorigin%
+ 2230RTS
+ 2240]:NEXTo%
+ 2250PROCheader("use")
+ 2260use%=P%
+ 2270FORo%=0TO3STEP3
+ 2280P%=use%
+ 2290[:OPTo%
+ 2300OPT FNliteral(uvuse%)
+ 2310JSRplusorigin%
+ 2320RTS
+ 2330]:NEXTo%
+ 2340PROCheader("prev")
+ 2350prev%=P%
+ 2360FORo%=0TO3STEP3
+ 2370P%=prev%
+ 2380[:OPTo%
+ 2390OPT FNliteral(uvprev%)
+ 2400JSRplusorigin%
+ 2410RTS
+ 2420]:NEXTo%
+ 2430PROCheader("f/l")
+ 2440fl%=P%
+ 2450FORo%=0TO3STEP3
+ 2460P%=fl%
+ 2470[:OPTo%
+ 2480OPT FNliteral(uvfl%)
+ 2490JSRplusorigin%
+ 2500RTS
+ 2510]:NEXTo%
+ 2520PROCheader("bl")
+ 2530bl%=P%
+ 2540FORo%=0TO3STEP3
+ 2550P%=bl%
+ 2560[:OPTo%
+ 2570OPT FNliteral(&20)
+ 2580RTS
+ 2590]:NEXTo%
+ 2600PROCheader("here")
+ 2610here%=P%
+ 2620FORo%=0TO3STEP3
+ 2630P%=here%
+ 2640[:OPTo%
+ 2650JSRdp%
+ 2660JSRfetch%
+ 2670RTS
+ 2680]:NEXTo%
+ 2690PROCheader("allot")
+ 2700allot%=P%
+ 2710FORo%=0TO3STEP3
+ 2720P%=allot%
+ 2730[:OPTo%
+ 2740JSRdup%
+ 2750JSRhere%
+ 2760JSRadd%
+ 2770JSRlimit%
+ 2780JSRfetch%
+ 2790JSRgreater%
+ 2800OPT FNliteral(enomem%)
+ 2810.apatch
+ 2820JSR&0000
+ 2830JSRdp%
+ 2840JSRplusstore%
+ 2850RTS
+ 2860]:NEXTo%
+ 2870PROCheader("erase")
+ 2880erase%=P%
+ 2890FORo%=0TO3STEP3
+ 2900P%=erase%
+ 2910[:OPTo%
+ 2920OPT FNliteral(&00)
+ 2930JSRfill%
+ 2940RTS
+ 2950]:NEXTo%
+ 2960PROCheader("blanks")
+ 2970blanks%=P%
+ 2980FORo%=0TO3STEP3
+ 2990P%=blanks%
+ 3000[:OPTo%
+ 3010OPT FNliteral(&20)
+ 3020JSRfill%
+ 3030RTS
+ 3040]:NEXTo%
+ 3050PROCheader(",")
+ 3060comma%=P%
+ 3070FORo%=0TO3STEP3
+ 3080P%=comma%
+ 3090[:OPTo%
+ 3100JSRhere%
+ 3110OPT FNliteral(&02)
+ 3120JSRallot%
+ 3130JSRstore%
+ 3140RTS
+ 3150]:NEXTo%
+ 3160PROCheader("c,")
+ 3170ccomma%=P%
+ 3180FORo%=0TO3STEP3
+ 3190P%=ccomma%
+ 3200[:OPTo%
+ 3210JSRhere%
+ 3220OPT FNliteral(&01)
+ 3230JSRallot%
+ 3240JSRcstore%
+ 3250RTS
+ 3260]:NEXTo%
+ 3270PROCheader("jsr,")
+ 3280jsrc%=P%
+ 3290FORo%=0TO3STEP3
+ 3300P%=jsrc%
+ 3310[:OPTo%
+ 3320OPT FNliteral(&20)
+ 3330JSRccomma%
+ 3340JSRcomma%
+ 3350RTS
+ 3360]:NEXTo%
+ 3370PROCheader("rts,")
+ 3380rtsc%=P%
+ 3390FORo%=0TO3STEP3
+ 3400P%=rtsc%
+ 3410[:OPTo%
+ 3420OPT FNliteral(&60)
+ 3430JSRccomma%
+ 3440RTS
+ 3450]:NEXTo%
+ 3460PROCheader("clc,")
+ 3470clcc%=P%
+ 3480FORo%=0TO3STEP3
+ 3490P%=clcc%
+ 3500[:OPTo%
+ 3510OPT FNliteral(&18)
+ 3520JSRccomma%
+ 3530RTS
+ 3540]:NEXTo%
+ 3550PROCheader("bcc,")
+ 3560bccc%=P%
+ 3570FORo%=0TO3STEP3
+ 3580P%=bccc%
+ 3590[:OPTo%
+ 3600OPT FNliteral(&90)
+ 3610JSRccomma%
+ 3620JSRccomma%
+ 3630RTS
+ 3640]:NEXTo%
+ 3650PROCheader("bcs,")
+ 3660bcsc%=P%
+ 3670FORo%=0TO3STEP3
+ 3680P%=bcsc%
+ 3690[:OPTo%
+ 3700OPT FNliteral(&B0)
+ 3710JSRccomma%
+ 3720JSRccomma%
+ 3730RTS
+ 3740]:NEXTo%
+ 3750PROCheader("beq,")
+ 3760beqc%=P%
+ 3770FORo%=0TO3STEP3
+ 3780P%=beqc%
+ 3790[:OPTo%
+ 3800OPT FNliteral(&F0)
+ 3810JSRccomma%
+ 3820JSRccomma%
+ 3830RTS
+ 3840]:NEXTo%
+ 3850PROCheader("bne,")
+ 3860bnec%=P%
+ 3870FORo%=0TO3STEP3
+ 3880P%=bnec%
+ 3890[:OPTo%
+ 3900OPT FNliteral(&D0)
+ 3910JSRccomma%
+ 3920JSRccomma%
+ 3930RTS
+ 3940]:NEXTo%
+ 3950PROCheader("abs")
+ 3960abs%=P%
+ 3970FORo%=0TO3STEP3
+ 3980P%=abs%
+ 3990[:OPTo%
+ 4000JSRdup%
+ 4010JSRplusminus%
+ 4020RTS
+ 4030]:NEXTo%
+ 4040PROCheader("dabs")
+ 4050dabs%=P%
+ 4060FORo%=0TO3STEP3
+ 4070P%=dabs%
+ 4080[:OPTo%
+ 4090JSRdup%
+ 4100JSRdplusminus%
+ 4110RTS
+ 4120]:NEXTo%
+ 4130PROCheader("-")
+ 4140minusadd%=P%
+ 4150FORo%=0TO3STEP3
+ 4160P%=minusadd%
+ 4170[:OPTo%
+ 4180JSRminus%
+ 4190JSRadd%
+ 4200RTS
+ 4210]:NEXTo%
+ 4220PROCheader("d-")
+ 4230dminusadd%=P%
+ 4240FORo%=0TO3STEP3
+ 4250P%=dminusadd%
+ 4260[:OPTo%
+ 4270JSRdminus%
+ 4280JSRdadd%
+ 4290RTS
+ 4300]:NEXTo%
+ 4310PROCheader("m*")
+ 4320mmul%=P%
+ 4330FORo%=0TO3STEP3
+ 4340P%=mmul%
+ 4350[:OPTo%
+ 4360JSRover%
+ 4370JSRover%
+ 4380JSRxor%
+ 4390JSRtoa%
+ 4400JSRabs%
+ 4410JSRswap%
+ 4420JSRabs%
+ 4430JSRumul%
+ 4440JSRafrom%
+ 4450JSRdplusminus%
+ 4460RTS
+ 4470]:NEXTo%
+ 4480PROCheader("m/")
+ 4490mdiv%=P%
+ 4500FORo%=0TO3STEP3
+ 4510P%=mdiv%
+ 4520[:OPTo%
+ 4530JSRover%
+ 4540JSRtoa%
+ 4550JSRtoa%
+ 4560JSRdabs%
+ 4570JSRa%
+ 4580JSRabs%
+ 4590JSRudiv%
+ 4600JSRafrom%
+ 4610JSRa%
+ 4620JSRxor%
+ 4630JSRplusminus%
+ 4640JSRswap%
+ 4650JSRafrom%
+ 4660JSRplusminus%
+ 4670JSRswap%
+ 4680RTS
+ 4690]:NEXTo%
+ 4700PROCheader("*")
+ 4710mul%=P%
+ 4720FORo%=0TO3STEP3
+ 4730P%=mul%
+ 4740[:OPTo%
+ 4750JSRumul%
+ 4760JSRdrop%
+ 4770RTS
+ 4780]:NEXTo%
+ 4790PROCheader("/mod")
+ 4800divmod%=P%
+ 4810FORo%=0TO3STEP3
+ 4820P%=divmod%
+ 4830[:OPTo%
+ 4840JSRtoa%
+ 4850JSRstod%
+ 4860JSRafrom%
+ 4870JSRmdiv%
+ 4880RTS
+ 4890]:NEXTo%
+ 4900PROCheader("/")
+ 4910div%=P%
+ 4920FORo%=0TO3STEP3
+ 4930P%=div%
+ 4940[:OPTo%
+ 4950JSRdivmod%
+ 4960JSRswap%
+ 4970JSRdrop%
+ 4980RTS
+ 4990]:NEXTo%
+ 5000PROCheader("mod")
+ 5010mod%=P%
+ 5020FORo%=0TO3STEP3
+ 5030P%=mod%
+ 5040[:OPTo%
+ 5050JSRdivmod%
+ 5060JSRdrop%
+ 5070RTS
+ 5080]:NEXTo%
+ 5090PROCheader("*/mod")
+ 5100muldivmod%=P%
+ 5110FORo%=0TO3STEP3
+ 5120P%=muldivmod%
+ 5130[:OPTo%
+ 5140JSRtoa%
+ 5150JSRmmul%
+ 5160JSRafrom%
+ 5170JSRmdiv%
+ 5180RTS
+ 5190]:NEXTo%
+ 5200PROCheader("*/")
+ 5210muldiv%=P%
+ 5220FORo%=0TO3STEP3
+ 5230P%=muldiv%
+ 5240[:OPTo%
+ 5250JSRmuldivmod%
+ 5260JSRswap%
+ 5270JSRdrop%
+ 5280RTS
+ 5290]:NEXTo%
+ 5300PROCheader("m/mod")
+ 5310mdivmod%=P%
+ 5320FORo%=0TO3STEP3
+ 5330P%=mdivmod%
+ 5340[:OPTo%
+ 5350JSRtoa%
+ 5360OPT FNliteral(&00)
+ 5370JSRa%
+ 5380JSRudiv%
+ 5390JSRafrom%
+ 5400JSRswap%
+ 5410JSRtoa%
+ 5420JSRudiv%
+ 5430JSRafrom%
+ 5440RTS
+ 5450]:NEXTo%
+ 5460OSCLI("*EXEC E.PRIMARY")
+ 5470END
+ 5480DEFPROCheader(name$)
+ 5490PRINT:PRINT
+ 5500PRINT"  *** ";~P%;" nfa '";name$;"'"
+ 5510LETxhere%=P%
+ 5520LETspan%=LEN(name$)
+ 5530?P%=span%
+ 5540PROCsetbit(7,P%)
+ 5550LETP%=P%+1
+ 5560IFspan% > length%THENspan%=length%
+ 5570FORi%=1TOspan%
+ 5580?P%=ASC(MID$(name$,i%,1))
+ 5590LETP%=P%+1
+ 5600NEXTi%
+ 5610PRINT"  *** ";~P%;" lfa (";~last%;")"
+ 5620PROCsetbit(7,P%-1)
+ 5630PROCpoke(last%,P%)
+ 5640LETP%=P%+2
+ 5650LETlast%=xhere%
+ 5660LETlabel%=label%+1
+ 5670PRINT:PRINT
+ 5680ENDPROC
+ 5690DEFPROCsetbit(bit%,addr%)
+ 5700?addr%=?addr%OR(2^bit%)
+ 5710ENDPROC
+ 5720DEFPROCpoke(val%,addr%)
+ 5730?addr%=val%MOD256
+ 5740?(addr%+1)=val%DIV256
+ 5750ENDPROC
+ 5760DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
