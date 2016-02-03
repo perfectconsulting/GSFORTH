@@ -1,228 +1,114 @@
-
-   10 PROCheader("sp!")
-
-   20 spstore%=P%
-
-   30 [:OPT3
-
-   40 LDX#stkbot%
-
-   50 RTS
-
-   60 ]
-
-   70 PROCheader("ap!")
-
-   80 apstore%=P%
-
-   90 [:OPT3
-
-  100 LDA#astkbot%
-
-  110 STAasp%
-
-  120 RTS
-
-  130 ]
-
-  140 PROCheader("rp!")
-
-  150 rpstore%=P%
-
-  160 [:OPT3
-
-  170 PLA
-
-  180 STAsc%
-
-  190 PLA
-
-  200 STAsc%+1
-
-  210 STXsc%+2
-
-  220 LDX#&FF
-
-  230 TXS
-
-  240 LDAsc%+1
-
-  250 PHA
-
-  260 LDAsc%
-
-  270 PHA
-
-  280 LDXsc%+2
-
-  290 RTS
-
-  300 ]
-
-  310 PROCheader("sp@")
-
-  320 spfetch%=P%
-
-  330 FORo%=0TO3STEP3
-
-  340   P%=spfetch% 
-
-  350   [:OPTo%
-
-  360   CPX#stktop%
-
-  370   BEQoverflow
-
-  380   TXA
-
-  390   DEX:DEX
-
-  400   STAstk%+1,X
-
-  410   LDA#&00
-
-  420   STAstk%+2,X
-
-  430   RTS
-
-  440   .overflow
-
-  450   LDA#estko%
-
-  460   JMP(svct%)
-
-  470   ]:NEXTo%
-
-  480 PROCheader("ap@")
-
-  490 apfetch%=P%
-
-  500 FORo%=0TO3STEP3
-
-  510   P%=apfetch%
-
-  520   [:OPTo%
-
-  530   CPX#stktop%
-
-  540   BEQoverflow
-
-  550   DEX:DEX
-
-  560   LDAasp%
-
-  570   STAstk%+1,X
-
-  580   LDA#&00
-
-  590   STAstk%+2,X
-
-  600   RTS
-
-  610   .overflow
-
-  620   LDA#estko%
-
-  630   JMP(svct%)
-
-  640   ]:NEXTo%
-
-  650 PROCheader("rp@")
-
-  660 rpfetch%=P%
-
-  670 FORo%=0TO3STEP3
-
-  680   P%=rpfetch%
-
-  690   [:OPTo%
-
-  700   CPX#stktop%
-
-  710   BEQoverflow
-
-  720   DEX:DEX
-
-  730   STXsc%
-
-  740   TSX:TXA
-
-  750   LDXsc%
-
-  760   STAstk%+1,X
-
-  770   LDA#&00
-
-  780   STAstk%+2,X
-
-  790   RTS
-
-  800   .overflow
-
-  810   LDA#estko%
-
-  820   JMP(svct%)
-
-  830   ]:NEXTo%
-
-  840 OSCLI("EXEC E.STACK")
-
-  850 END
-
-  860 DEFPROCheader(name$)
-
-  870 PRINT:PRINT
-
-  880 PRINT"  *** ";~P%;" nfa '";name$;"'"
-
-  890 LETxhere%=P%
-
-  900 LETspan%=LEN(name$)
-
-  910 ?P%=span%
-
-  920 PROCsetbit(7,P%)
-
-  930 LETP%=P%+1
-
-  940 IFspan% > length%THENspan%=length%
-
-  950 FORi%=1TOspan%
-
-  960   ?P%=ASC(MID$(name$,i%,1))
-
-  970   LETP%=P%+1
-
-  980   NEXTi%
-
-  990 PRINT"  *** ";~P%;" lfa (";~last%;")"
-
- 1000 PROCsetbit(7,P%-1)
-
- 1010 PROCpoke(last%,P%)
-
- 1020 LETP%=P%+2
-
- 1030 LETlast%=xhere%
-
- 1040 LETlabel%=label%+1
-
- 1050 PRINT:PRINT
-
- 1060 ENDPROC
-
- 1070 DEFPROCsetbit(bit%,addr%)
-
- 1080 ?addr%=?addr%OR(2^bit%)
-
- 1090 ENDPROC
-
- 1100 DEFPROCpoke(val%,addr%)
-
- 1110 ?addr%=val%MOD256
-
- 1120 ?(addr%+1)=val%DIV256
-
- 1130 ENDPROC
-
- 1140 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
+   10PROCheader("sp!")
+   20spstore%=P%
+   30[:OPT3
+   40LDX#stkbot%
+   50RTS
+   60]
+   70PROCheader("ap!")
+   80apstore%=P%
+   90[:OPT3
+  100LDA#astkbot%
+  110STAasp%
+  120RTS
+  130]
+  140PROCheader("rp!")
+  150rpstore%=P%
+  160[:OPT3
+  170PLA
+  180STAsc%
+  190PLA
+  200STAsc%+1
+  210STXsc%+2
+  220LDX#&FF
+  230TXS
+  240LDAsc%+1
+  250PHA
+  260LDAsc%
+  270PHA
+  280LDXsc%+2
+  290RTS
+  300]
+  310PROCheader("sp@")
+  320spfetch%=P%
+  330FORo%=0TO3STEP3
+  340P%=spfetch% 
+  350[:OPTo%
+  360CPX#stktop%
+  370BEQoverflow
+  380TXA
+  390DEX:DEX
+  400STAstk%+1,X
+  410LDA#&00
+  420STAstk%+2,X
+  430RTS
+  440.overflow
+  450LDA#estko%
+  460JMP(svct%)
+  470]:NEXTo%
+  480PROCheader("ap@")
+  490apfetch%=P%
+  500FORo%=0TO3STEP3
+  510P%=apfetch%
+  520[:OPTo%
+  530CPX#stktop%
+  540BEQoverflow
+  550DEX:DEX
+  560LDAasp%
+  570STAstk%+1,X
+  580LDA#&00
+  590STAstk%+2,X
+  600RTS
+  610.overflow
+  620LDA#estko%
+  630JMP(svct%)
+  640]:NEXTo%
+  650PROCheader("rp@")
+  660rpfetch%=P%
+  670FORo%=0TO3STEP3
+  680P%=rpfetch%
+  690[:OPTo%
+  700CPX#stktop%
+  710BEQoverflow
+  720DEX:DEX
+  730STXsc%
+  740TSX:TXA
+  750LDXsc%
+  760STAstk%+1,X
+  770LDA#&00
+  780STAstk%+2,X
+  790RTS
+  800.overflow
+  810LDA#estko%
+  820JMP(svct%)
+  830]:NEXTo%
+  840OSCLI("EXEC E.STACK")
+  850END
+  860DEFPROCheader(name$)
+  870PRINT:PRINT
+  880PRINT"  *** ";~P%;" nfa '";name$;"'"
+  890LETxhere%=P%
+  900LETspan%=LEN(name$)
+  910?P%=span%
+  920PROCsetbit(7,P%)
+  930LETP%=P%+1
+  940IFspan% > length%THENspan%=length%
+  950FORi%=1TOspan%
+  960?P%=ASC(MID$(name$,i%,1))
+  970LETP%=P%+1
+  980NEXTi%
+  990PRINT"  *** ";~P%;" lfa (";~last%;")"
+ 1000PROCsetbit(7,P%-1)
+ 1010PROCpoke(last%,P%)
+ 1020LETP%=P%+2
+ 1030LETlast%=xhere%
+ 1040LETlabel%=label%+1
+ 1050PRINT:PRINT
+ 1060ENDPROC
+ 1070DEFPROCsetbit(bit%,addr%)
+ 1080?addr%=?addr%OR(2^bit%)
+ 1090ENDPROC
+ 1100DEFPROCpoke(val%,addr%)
+ 1110?addr%=val%MOD256
+ 1120?(addr%+1)=val%DIV256
+ 1130ENDPROC
+ 1140DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
