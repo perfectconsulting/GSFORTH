@@ -1,400 +1,175 @@
-
-   10 PROCheader("digit")
-
-   20 digit%=P%
-
-   30 FORo%=0TO3STEP3
-
-   40   P%=digit%
-
-   50   [:OPTo%
-
-   60   CPX#stkbot%-2
-
-   70   BCSunderflow
-
-   80   SEC
-
-   90   LDAstk%+3,X
-
-  100   SBC#ASC("0")
-
-  110   BMInondigit
-
-  120   CMP#&0A
-
-  130   BMIcheckbase
-
-  140   SEC
-
-  150   SBC#&07
-
-  160   CMP#&0A
-
-  170   BMInondigit
-
-  180   .checkbase
-
-  190   CMPstk%+1,X
-
-  200   BPLnondigit
-
-  210   STAstk%+3,X
-
-  220   LDA#&FF
-
-  230   STAstk%+1,X
-
-  240   STAstk%+2,X
-
-  250   RTS
-
-  260   .nondigit
-
-  270   INX:INX
-
-  280   LDA#&00
-
-  290   STAstk%+1,X
-
-  300   STAstk%+2,X
-
-  310   RTS
-
-  320   .underflow
-
-  330   LDA#estku%
-
-  340   JMP(svct%)
-
-  350   ]:NEXTo%
-
-  360 PROCheader("(find)")
-
-  370 bfind%=P%
-
-  380 FORo%=0TO3STEP3
-
-  390   P%=bfind%
-
-  400   [:OPTo%
-
-  410   CPX#stkbot%-2
-
-  420   BCSunderflow
-
-  430   LDAstk%+1,X
-
-  440   STAsc%
-
-  450   LDAstk%+2,X
-
-  460   STAsc%+1
-
-  470   LDAstk%+3,X
-
-  480   STAsc%+2
-
-  490   LDAstk%+4,X
-
-  500   STAsc%+3
-
-  510   .mfindfirst
-
-  520   LDY#&00
-
-  530   LDA(sc%),Y
-
-  540   STAsc%+4
-
-  550   INY
-
-  560   LDA(sc%),Y
-
-  570   STAsc%+5
-
-  580   .mfindstart
-
-  590   LDY#&00
-
-  600   LDAsc%+4
-
-  610   BNEmfindloop
-
-  620   LDAsc%+5
-
-  630   BEQmfindnext
-
-  640   .mfindloop
-
-  650   LDA(sc%+4),Y
-
-  660   AND#&20
-
-  670   BNEnextlink
-
-  680   LDA(sc%+4),Y
-
-  690   AND#&1F
-
-  700   CMP(sc%+2),Y
-
-  710   BNEnextlink
-
-  720   .nameloop
-
-  730   INY
-
-  740   LDA(sc%+4),Y
-
-  750   AND#&7F
-
-  760   CMP(sc%+2),Y
-
-  770   BNEthislink
-
-  780   LDA(sc%+4),Y
-
-  790   AND#&80
-
-  800   BEQnameloop
-
-  810   BNEfound
-
-  820   .nextlink
-
-  830   INY
-
-  840   .thislink
-
-  850   LDA(sc%+4),Y
-
-  860   AND#&80
-
-  870   BEQnextlink
-
-  880   INY
-
-  890   LDA(sc%+4),Y
-
-  900   STAsc%+6
-
-  910   INY
-
-  920   LDA(sc%+4),Y
-
-  930   STAsc%+5
-
-  940   LDAsc%+6
-
-  950   STAsc%+4
-
-  960   CLC
-
-  970   BCCmfindstart
-
-  980   .underflow
-
-  990   LDA#estku%
-
- 1000   JMP(svct%)
-
- 1010   .overflow
-
- 1020   LDA#estko%
-
- 1030   JMP(svct%)
-
- 1040   .mfindnext
-
- 1050   LDY#&00
-
- 1060   CLC
-
- 1070   LDAsc%
-
- 1080   ADC#&02
-
- 1090   STAsc%+4
-
- 1100   LDAsc%+1
-
- 1110   ADC#&00
-
- 1120   STAsc%+5
-
- 1130   LDA(sc%+4),Y
-
- 1140   STAsc%
-
- 1150   INY
-
- 1160   LDA(sc%+4),Y
-
- 1170   STAsc%+1
-
- 1180   LDAsc%
-
- 1190   BNEmfindfirst
-
- 1200   LDAsc%+1
-
- 1210   BNEmfindfirst
-
- 1220   .notfound
-
- 1230   INX:INX
-
- 1240   LDA#&00
-
- 1250   STAstk%+1,X
-
- 1260   STAstk%+2,X
-
- 1270   RTS
-
- 1280   .found
-
- 1290   CPX#stktop%
-
- 1300   BEQoverflow
-
- 1310   INY:INY:INY
-
- 1320   DEX:DEX
-
- 1330   TYA
-
- 1340   CLC
-
- 1350   ADCsc%+4
-
- 1360   STAstk%+5,X
-
- 1370   LDAsc%+5
-
- 1380   ADC#&00
-
- 1390   STAstk%+6,X
-
- 1400   LDY#&00
-
- 1410   LDA(sc%+4),Y
-
- 1420   STAstk%+3,X
-
- 1430   TYA
-
- 1440   STAstk%+4,X
-
- 1450   LDA#&FF
-
- 1460   STAstk%+1,X
-
- 1470   STAstk%+2,X
-
- 1480   RTS
-
- 1490   ]:NEXTo%
-
- 1500 PROCheader("execute")
-
- 1510 exec%=P%
-
- 1520 FORo%=0TO3STEP3
-
- 1530   P%=exec%
-
- 1540   [:OPTo%
-
- 1550   CPX#stkbot%
-
- 1560   BEQunderflow
-
- 1570   LDAstk%+1,X
-
- 1580   STAsc%
-
- 1590   LDAstk%+2,X
-
- 1600   STAsc%+1
-
- 1610   INX:INX
-
- 1620   JMP(sc%)
-
- 1630   .underflow
-
- 1640   LDA#estku%
-
- 1650   JMP(svct%)
-
- 1660   ]:NEXTo%
-
- 1670 PROCheader("x")
-
- 1680 [:PLA:PLA:RTS:]
-
- 1690 PROCpoke(&80C1,last%)
-
- 1700 OSCLI("EXEC E.MORE")
-
- 1710 END
-
- 1720 DEFPROCheader(name$)
-
- 1730 PRINT:PRINT
-
- 1740 PRINT"  *** ";~P%;" nfa '";name$;"'"
-
- 1750 LETxhere%=P%
-
- 1760 LETspan%=LEN(name$)
-
- 1770 ?P%=span%
-
- 1780 PROCsetbit(7,P%)
-
- 1790 LETP%=P%+1
-
- 1800 IFspan% > length%THENspan%=length%
-
- 1810 FORi%=1TOspan%
-
- 1820   ?P%=ASC(MID$(name$,i%,1))
-
- 1830   LETP%=P%+1
-
- 1840   NEXTi%
-
- 1850 PRINT"  *** ";~P%;" lfa (";~last%;")"
-
- 1860 PROCsetbit(7,P%-1)
-
- 1870 PROCpoke(last%,P%)
-
- 1880 LETP%=P%+2
-
- 1890 LETlast%=xhere%
-
- 1900 LETlabel%=label%+1
-
- 1910 PRINT:PRINT
-
- 1920 ENDPROC
-
- 1930 DEFPROCsetbit(bit%,addr%)
-
- 1940 ?addr%=?addr%OR(2^bit%)
-
- 1950 ENDPROC
-
- 1960 DEFPROCpoke(val%,addr%)
-
- 1970 ?addr%=val%MOD256
-
- 1980 ?(addr%+1)=val%DIV256
-
- 1990 ENDPROC
-
- 2000 DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
+   10PROCheader("digit")
+   20digit%=P%
+   30FORo%=0TO3STEP3
+   40P%=digit%
+   50[:OPTo%
+   60CPX#stkbot%-2
+   70BCSunderflow
+   80SEC
+   90LDAstk%+3,X
+  100SBC#ASC("0")
+  110BMInondigit
+  120CMP#&0A
+  130BMIcheckbase
+  140SEC
+  150SBC#&07
+  160CMP#&0A
+  170BMInondigit
+  180.checkbase
+  190CMPstk%+1,X
+  200BPLnondigit
+  210STAstk%+3,X
+  220LDA#&FF
+  230STAstk%+1,X
+  240STAstk%+2,X
+  250RTS
+  260.nondigit
+  270INX:INX
+  280LDA#&00
+  290STAstk%+1,X
+  300STAstk%+2,X
+  310RTS
+  320.underflow
+  330LDA#estku%
+  340JMP(svct%)
+  350]:NEXTo%
+  360PROCheader("(find)")
+  370find%=P%
+  380FORo%=0TO3STEP3
+  390P%=find%
+  400[:OPTo%
+  410CPX#stkbot%-2
+  420BCSunderflow
+  430LDAstk%+1,X
+  440STAsc%
+  450LDAstk%+2,X
+  460STAsc%+1
+  470LDAstk%+3,X
+  480STAsc%+2
+  490LDAstk%+4,X
+  500STAsc%+3
+  510.findstart
+  520LDY#&00
+  530LDAsc%
+  540BNEfindloop
+  550LDAsc%+1
+  560BEQnotfound
+  570.findloop
+  580LDA(sc%),Y
+  590AND#&20
+  600BNEnextlink
+  610LDA(sc%),Y
+  620AND#&1F
+  630CMP(sc%+2),Y
+  640BNEnextlink
+  650.nameloop
+  660INY
+  670LDA(sc%),Y
+  680AND#&7F
+  690CMP(sc%+2),Y
+  700BNEthislink
+  710LDA(sc%),Y
+  720AND#&80
+  730BEQnameloop
+  740BNEfound
+  750.nextlink
+  760INY
+  770.thislink
+  780LDA(sc%),Y
+  790AND#&80
+  800BEQnextlink
+  810INY
+  820LDA(sc%),Y
+  830STAsc%+4
+  840INY
+  850LDA(sc%),Y
+  860STAsc%+1
+  870LDAsc%+4
+  880STAsc%
+  890CLC
+  900BCCfindstart
+  910.underflow
+  920LDA#estku%
+  930JMP(svct%)
+  940.overflow
+  950LDA#estko%
+  960JMP(svct%)
+  970.found
+  980CPX#stktop%
+  990BEQoverflow
+ 1000INY:INY:INY
+ 1010DEX:DEX
+ 1020TYA
+ 1030CLC
+ 1040ADCsc%
+ 1050STAstk%+5,X
+ 1060LDAsc%+1
+ 1070ADC#&00
+ 1080STAstk%+6,X
+ 1090LDY#&00
+ 1100LDA(sc%),Y
+ 1110STAstk%+3,X
+ 1120TYA
+ 1130STAstk%+4,X
+ 1140LDA#&FF
+ 1150STAstk%+1,X
+ 1160STAstk%+2,X
+ 1170RTS
+ 1180.notfound
+ 1190INX:INX
+ 1200LDA#&00
+ 1210STAstk%+1,X
+ 1220STAstk%+2,X
+ 1230RTS
+ 1240]:NEXTo%
+ 1250PROCheader("execute")
+ 1260exec%=P%
+ 1270FORo%=0TO3STEP3
+ 1280P%=exec%
+ 1290[:OPTo%
+ 1300CPX#stkbot%
+ 1310BEQunderflow
+ 1320LDAstk%+1,X
+ 1330STAsc%
+ 1340LDAstk%+2,X
+ 1350STAsc%+1
+ 1360INX:INX
+ 1370JMP(sc%)
+ 1380.underflow
+ 1390LDA#estku%
+ 1400JMP(svct%)
+ 1410]:NEXTo%
+ 1420PROCheader("x")
+ 1430[:PLA:PLA:RTS:]
+ 1440PROCpoke(&80C1,last%)
+ 1450OSCLI("EXEC E.MORE")
+ 1460END
+ 1470DEFPROCheader(name$)
+ 1480PRINT:PRINT
+ 1490PRINT"  *** ";~P%;" nfa '";name$;"'"
+ 1500LETxhere%=P%
+ 1510LETspan%=LEN(name$)
+ 1520?P%=span%
+ 1530PROCsetbit(7,P%)
+ 1540LETP%=P%+1
+ 1550IFspan% > length%THENspan%=length%
+ 1560FORi%=1TOspan%
+ 1570?P%=ASC(MID$(name$,i%,1))
+ 1580LETP%=P%+1
+ 1590NEXTi%
+ 1600PRINT"  *** ";~P%;" lfa (";~last%;")"
+ 1610PROCsetbit(7,P%-1)
+ 1620PROCpoke(last%,P%)
+ 1630LETP%=P%+2
+ 1640LETlast%=xhere%
+ 1650LETlabel%=label%+1
+ 1660PRINT:PRINT
+ 1670ENDPROC
+ 1680DEFPROCsetbit(bit%,addr%)
+ 1690?addr%=?addr%OR(2^bit%)
+ 1700ENDPROC
+ 1710DEFPROCpoke(val%,addr%)
+ 1720?addr%=val%MOD256
+ 1730?(addr%+1)=val%DIV256
+ 1740ENDPROC
+ 1750DEFFNliteral(value%):[:OPTo%:JSRlit%:]:PROCpoke(value%,P%):P%=P%+2:=o%
